@@ -1,0 +1,24 @@
+<ng-container *ngIf="question !== undefined">
+  <form [formGroup]="questionForm"></form>
+
+  <div [ngSwitch]="question.answerType">
+    <div *ngSwitchCase="answerType.Radio">
+      <div
+        formArrayName="options"
+        *ngFor="let item of orderForm.get('items')['controls']; let i = index"
+      >
+        <div [formGroupName]="i">
+          <input formControlName="option" type="radio" placeholder="Option" />
+        </div>
+
+        <button type="button" (click)="addItem()">Add Item</button>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="answerType.Text">output</div>
+
+    <div *ngSwitchCase="answerType.Multiple">output</div>
+
+    <div *ngSwitchDefault>incorrect answer type</div>
+  </div>
+</ng-container>

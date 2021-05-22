@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "knowledge-35752": {
+      "hosting": {
+        "edu-step": [
+          "knowledge-35752"
+        ]
+      }
+    }
+  }
+}

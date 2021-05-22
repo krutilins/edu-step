@@ -1,0 +1,18 @@
+<div class="book-list__list">
+  <app-book-preview
+    class="book-list__book"
+    *ngFor="let book of books$ | async"
+    [book]="book"
+  >
+  </app-book-preview>
+  <div class="book-list__book">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openBookCreationDialog()"
+    >
+      <mat-icon>add</mat-icon>
+      Add Book
+    </button>
+  </div>
+</div>

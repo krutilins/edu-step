@@ -1,0 +1,36 @@
+:host {
+  display: block;
+}
+
+.book-list {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 1300px;
+  width: 100%;
+
+  margin: 0 auto;
+
+  &__toolbar {
+    padding: 10px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &__book {
+    padding: 10px;
+    max-width: 400px;
+    width: 100%;
+  }
+}
+
+
+.card-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

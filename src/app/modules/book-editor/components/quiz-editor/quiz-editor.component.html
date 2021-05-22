@@ -1,0 +1,12 @@
+<ng-container *ngIf="quiz !== undefined">
+  <div class="quiz-heading">
+    <form [formGroup]="quizHeadingForm">
+      <input formControlName="title" placeholder="Quiz title" />
+      <input formControlName="subtitle" placeholder="Quiz subtitle" />
+    </form>
+  </div>
+  <app-question-editor
+    *ngFor="let question of quiz.questions"
+    [question]="question"
+  ></app-question-editor>
+</ng-container>

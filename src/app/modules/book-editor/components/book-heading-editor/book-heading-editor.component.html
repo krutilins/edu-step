@@ -1,0 +1,19 @@
+<ng-container *ngIf="bookMetadata !== null">
+  <mat-card class="book-preview">
+    <mat-card-title-group>
+      <mat-card-title>{{ bookMetadata.title }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ bookMetadata.subtitle }}
+      </mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-card-actions class="book-actions">
+      <button
+        mat-raised-button
+        (click)="onUpdateHeading()"
+        color="primary"
+      >
+        <mat-icon> edit </mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>

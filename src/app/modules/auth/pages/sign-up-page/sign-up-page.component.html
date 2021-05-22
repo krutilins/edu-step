@@ -1,0 +1,32 @@
+<div class="wrapper">
+  <div class="form-container">
+    <div class="header-text">Sign up</div>
+    <app-social-auth></app-social-auth>
+    <div class="form-text">Or sign up with email</div>
+    <form
+      class="form"
+      name="form"
+      [formGroup]="signUpFormGroup"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="email" class="label">Email </label>
+      <input type="text" name="email" formControlName="email" />
+
+      <label for="password" class="label">Password </label>
+      <input type="password" name="password" formControlName="password" />
+
+      <label for="password" class="label">Password repeat </label>
+      <input type="password" name="password" formControlName="passwordRepeat" />
+
+      <input
+        type="submit"
+        value="Get started"
+        [disabled]="!signUpFormGroup.valid"
+      />
+    </form>
+    <div class="have-account">
+      Have an account?
+      <span><a routerLink="/auth/sign-in">Sign in</a></span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.book-preview {
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.book-actions {
+  display: flex;
+  justify-content: space-between;
+}

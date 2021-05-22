@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <div class="form-container">
+    <div class="header-text">Sign in</div>
+    <app-social-auth></app-social-auth>
+    <div class="form-text">Or sign in with email</div>
+    <form
+      class="form"
+      name="form"
+      [formGroup]="signInFormGroup"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="email" class="label">Email </label>
+      <input type="text" name="email" formControlName="email" />
+
+      <label for="password" class="label">Password </label>
+      <input type="password" name="password" formControlName="password" />
+
+      <input
+        type="submit"
+        value="Get started"
+        [disabled]="!signInFormGroup.valid"
+      />
+    </form>
+    <div class="have-account">
+      Don't have an account?
+      <span><a routerLink="/auth/sign-up">Sign up</a></span>
+    </div>
+  </div>
+</div>
