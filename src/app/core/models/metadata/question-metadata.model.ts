@@ -3,6 +3,9 @@ export interface QuestionMetadata {
   quizId: string;
   question: string;
   answerType: string;
-  options: string[];
+  options: {
+    id: string,
+    content: string
+  }[];
   required: boolean;
 }

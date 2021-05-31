@@ -12,7 +12,8 @@ export const stepEditorReducer = createReducer(
   on(StepEditorActions.loadStepSuccess, (state, action) => {
     const newState = deepCopy(state);
 
-    newState.steps = [...newState.steps.filter(step => step.id !== action.stepMetadata.id), action.stepMetadata];
+    newState.steps = newState.steps.filter(step => step.id !== action.stepMetadata.id);
+    newState.steps.push(action.stepMetadata);
 
     return newState;
   }),
@@ -38,7 +39,7 @@ export const stepEditorReducer = createReducer(
   on(StepEditorActions.createStepSuccess, (state, { stepMetadata }) => {
     const newState = deepCopy(state);
 
-    newState.steps = [...newState.steps, stepMetadata];
+    newState.steps.push(stepMetadata);
 
     return newState;
   }),

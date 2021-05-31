@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="editor">
+    <app-file-loader class="file-loader" [unitMetadata]="unitMetadata$ | async"></app-file-loader>
+  </div>
+  <div class="footer">
+    <ng-container *ngIf="unitMetadata$ | async">
+      <app-editor-toolbar
+        [bookId]="(unitMetadata$ | async).bookId"
+      ></app-editor-toolbar>
+    </ng-container>
+  </div>
+</div>

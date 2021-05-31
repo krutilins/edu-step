@@ -44,7 +44,7 @@ export const loadStep = createAction(
 );
 
 export const loadStepSuccess = createAction(
-  '[Step Editor] Load Step',
+  '[Step Editor] Load Step Success',
   props<{ stepMetadata: StepMetadata }>()
 );
 
@@ -73,7 +73,7 @@ export const createStepFailed = createAction(
 
 // UPDATE STEP HEADING
 
-export const updateStepHeading = createAction(
+export const updateStep = createAction(
   '[Book Editor] Update Step Heading',
   props<{ id: string, title: string, subtitle: string }>()
 );

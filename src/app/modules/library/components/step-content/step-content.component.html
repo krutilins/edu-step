@@ -1,0 +1,11 @@
+<ng-container *ngIf="stepMetadata">
+  <div [ngSwitch]="stepMetadata.blockType">
+    <div *ngSwitchCase="blockType.Quiz">
+      <app-quiz [quizMetadata]="quiz$ | async"></app-quiz>
+    </div>
+    <div *ngSwitchCase="blockType.Text">
+      <app-step-text [textMetadata]="text$ | async"></app-step-text>
+    </div>
+    <div *ngSwitchDefault>incorrect block type</div>
+  </div>
+</ng-container>

@@ -1,0 +1,8 @@
+<ng-container *ngIf="stepMetadata">
+  <a class="link" [routerLink]="getLinkForStep()">
+    <app-title-group-header class="header"
+      [title]="stepMetadata.title"
+      [subtitle]="stepMetadata.subtitle"
+    ></app-title-group-header>
+  </a>
+</ng-container>

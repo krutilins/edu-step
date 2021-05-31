@@ -18,7 +18,7 @@ export const selectStepsByUnitId = createSelector(
   (
     stepEditorState: StepEditorState,
     props: { unitId: string }
-  ): StepMetadata[] => stepEditorState.steps.filter(step => step.unitId === props.unitId)
+  ): StepMetadata[] => stepEditorState.steps.filter(step => step.unitId === props.unitId).sort((a, b) => a.pos - b.pos)
 );
 
 export const selectStepsByBookId = createSelector(
@@ -26,5 +26,5 @@ export const selectStepsByBookId = createSelector(
   (
     stepEditorState: StepEditorState,
     props: { bookId: string }
-  ): StepMetadata[] => stepEditorState.steps.filter(step => step.bookId === props.bookId)
+  ): StepMetadata[] => stepEditorState.steps.filter(step => step.bookId === props.bookId).sort((a, b) => a.pos - b.pos)
 );

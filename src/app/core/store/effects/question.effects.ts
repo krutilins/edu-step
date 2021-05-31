@@ -43,15 +43,21 @@ export class QuestionEffects {
   public updateQuestion$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuestionActions.updateQuestion),
-      mergeMap(({ id, question, answerType, options, required }) => this.bookEditorService.updateQuestion(
-        id,
-        question,
-        answerType,
-        options,
-        required
+      mergeMap(({ metadata }) => this.bookEditorService.updateQuestion(
+        metadata
       ).pipe(
         map(questionMetadata => QuestionActions.updateQuestionSuccess({ questionMetadata })),
         catchError(errorMessage => of(QuestionActions.updateQuestionFailed({ errorMessage })))
+      ))
+    );
+  });
+
+  public deleteQuestion$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(QuestionActions.deleteQuestion),
+      mergeMap(action => this.bookEditorService.deleteQuestion(action.id).pipe(
+        map(questionMetadata => QuestionActions.deleteQuestionSuccess({ questionMetadata })),
+        catchError(errorMessage => of(QuestionActions.deleteQuestionFailed({ errorMessage })))
       ))
     );
   });

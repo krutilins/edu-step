@@ -56,13 +56,7 @@ export const loadQuestionByQuizIdFailed = createAction(
 
 export const updateQuestion = createAction(
   '[Question] Update Question',
-  props<{
-    id: string,
-    question: string,
-    answerType: string,
-    options: string[],
-    required: boolean
-  }>()
+  props<{ metadata: Omit<QuestionMetadata, 'quizId'> }>()
 );
 
 export const updateQuestionSuccess = createAction(

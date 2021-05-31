@@ -13,7 +13,7 @@ export const questionReducer = createReducer(
   on(QuestoinActions.createQuestionSuccess, (state, action) => {
     const newState = deepCopy(state);
 
-    newState.questions = [...newState.questions, action.questionMetadata];
+    newState.questions.push(action.questionMetadata);
 
     return newState;
   }),

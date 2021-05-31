@@ -5,11 +5,15 @@ import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.co
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'library',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     children: [
       {
         path: 'library',
         loadChildren: () => import('../library/library.module').then(m => m.LibraryModule),
-        pathMatch: 'full'
       },
       {
         path: 'catalog',
@@ -18,10 +22,6 @@ const routes: Routes = [
       {
         path: 'editor',
         loadChildren: () => import('../book-editor/book-editor.module').then(m => m.BookEditorModule)
-      },
-      {
-        path: 'profile',
-        loadChildren: () => import('../profile/profile.module').then(m => m.ProfileModule)
       }
     ],
     component: DashboardPageComponent

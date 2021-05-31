@@ -23,7 +23,7 @@ export class QuizEffects {
   public updateQuiz = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuizActions.updateQuiz),
-      mergeMap(action => this.bookEditorService.updateQuiz(action.id, action.title, action.subtitle).pipe(
+      mergeMap(action => this.bookEditorService.updateQuiz(action.quizMetadata).pipe(
         map(quizMetadata => QuizActions.updateQuizSuccess({ quizMetadata })),
         catchError(errorMessage => of(QuizActions.updateQuizFailed({ errorMessage })))
       ))

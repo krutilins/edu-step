@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <ng-container *ngIf="booksMetadata$ | async">
+    <div class="list" *ngIf="(booksMetadata$ | async).length !== 0">
+      <div class="item" *ngFor="let book of booksMetadata$ | async">
+        <app-title-group-header
+          [title]="book.title"
+          [subtitle]="book.subtitle"
+        ></app-title-group-header>
+
+        <app-book-library-actions
+          [bookMetadata]="book"
+        ></app-book-library-actions>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="booksMetadata$ | async">
+    <div
+      class="message-container"
+      *ngIf="(booksMetadata$ | async).length === 0"
+    >
+      <div class="message">Library is empty</div>
+      <div class="message">
+        <span
+          >You can add one from
+          <span class="link" routerLink="/dashboard/catalog">catalog</span>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</div>

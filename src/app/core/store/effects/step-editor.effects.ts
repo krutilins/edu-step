@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { BookEditorService } from '../../services/book-editor.service';
 import * as StepEditorActions from '../actions/step-editor.action';
 
@@ -52,7 +52,7 @@ export class StepEditorEffects {
 
   public updateStepHeading$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(StepEditorActions.updateStepHeading),
+      ofType(StepEditorActions.updateStep),
       mergeMap(action => this.bookEditorService.updateStep(action.id, action.title, action.subtitle).pipe(
         map(stepMetadata => StepEditorActions.updateStepHeadingSuccess({ stepMetadata })),
         catchError(errorMessage => of(StepEditorActions.updateStepHeadingFailed({ errorMessage })))

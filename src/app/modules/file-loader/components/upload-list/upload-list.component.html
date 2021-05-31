@@ -1,0 +1,11 @@
+<div class="card">
+  <ul class="list">
+    <li class="item" *ngFor="let file of fileUploads$ | async">
+      <app-upload-details
+        [deletable]="changeable"
+        [fileUpload]="file"
+        [unitMetadata]="unitMetadata"
+      ></app-upload-details>
+    </li>
+  </ul>
+</div>

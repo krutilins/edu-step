@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DotsAfterLengthPipe implements PipeTransform {
 
-  transform(value: unknown, args: number[]): string {
+  public transform(value: unknown, args: number[]): string {
     const str = value.toString();
 
     if (str.length > args[0]) {

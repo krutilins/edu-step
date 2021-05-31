@@ -1,0 +1,40 @@
+<ng-container *ngIf="profile$ | async">
+  <div class="profile">
+    <div
+      class="profile__photo"
+      type="button"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+      (click)="toggleProfile()"
+    >
+      <img
+        [src]="
+          (profile$ | async).photoURL
+            ? (profile$ | async).photoURL
+            : getDefaultPhoto()
+        "
+      />
+    </div>
+
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isOpen"
+    >
+      <ul class="list">
+        <li class="item">
+          {{
+            (profile$ | async).displayName
+              ? (profile$ | async).displayName
+              : "User has no name"
+          }}
+        </li>
+        <li class="item">
+          <button mat-raised-button (click)="signOut()" color="primary">
+            Sign Out
+          </button>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+</ng-container>

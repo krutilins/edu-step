@@ -10,5 +10,7 @@ export const selectQuizById = createSelector(
   (
     quizState: QuizState,
     props: { id: string }
-  ): QuizMetadata | undefined => quizState.quizes.find(quiz => quiz.id === props.id)
+  ): QuizMetadata | undefined => {
+    return quizState.quizes.find(quiz => quiz.id === props.id)
+  }
 );

@@ -5,7 +5,7 @@ import { UnitEditorState } from '../models/unit-editor-state.model';
 
 export const selectUnitEditor = (state: AppState): UnitEditorState => state.unitEditor;
 
-export const selectUnitpById = createSelector(
+export const selectUnitById = createSelector(
   selectUnitEditor,
   (
     unitEditorState: UnitEditorState,
@@ -18,5 +18,5 @@ export const selectUnitsByBookId = createSelector(
   (
     unitEditorState: UnitEditorState,
     props: { bookId: string }
-  ): UnitMetadata[] => unitEditorState.units.filter(unit => unit.bookId === props.bookId)
+  ): UnitMetadata[] => unitEditorState.units.filter(unit => unit.bookId === props.bookId).sort((a, b) => a.pos - b.pos)
 );

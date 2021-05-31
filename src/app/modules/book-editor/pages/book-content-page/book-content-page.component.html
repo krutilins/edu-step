@@ -1,1 +1,23 @@
-<app-book-content></app-book-content>
+<div class="app-book-content" *ngIf="bookMetadata">
+  <div class="header">
+    <app-title-group-header
+      [title]="bookMetadata.title"
+      [subtitle]="bookMetadata.subtitle"
+    ></app-title-group-header>
+  </div>
+
+  <ng-container *ngFor="let unit of units">
+    <app-unit-editor
+      class="unit"
+      *ngIf="unit"
+      [unitMetadata]="unit"
+    ></app-unit-editor>
+  </ng-container>
+
+  <div>
+    <button mat-raised-button (click)="openUnitCreationDialog()">
+      <mat-icon>add</mat-icon>
+      Add Unit
+    </button>
+  </div>
+</div>

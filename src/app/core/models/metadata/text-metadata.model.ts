@@ -3,5 +3,5 @@ export interface TextMetadata {
   type: string;
   title: string;
   subtitle: string;
-  content: string[];
+  content: string;
 }

@@ -10,12 +10,22 @@ import * as BookEditorActions from '../actions/book-editor.actions';
 })
 export class BookEditorEffects {
 
-  public loadBooks$ = createEffect(() => {
+  public loadBooksByUserId$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(BookEditorActions.loadBooksPreviews),
-      mergeMap(action => this.bookEditorService.loadBooks(action.userId).pipe(
-        map(booksMetadata => BookEditorActions.loadBooks({ booksMetadata })),
-        catchError(errorMessage => of(BookEditorActions.loadBooksFailed({ errorMessage })))
+      ofType(BookEditorActions.loadBooksByUserId),
+      mergeMap(action => this.bookEditorService.loadBooksByUserId(action.userId).pipe(
+        map(booksMetadata => BookEditorActions.loadBooksByUserIdSuccess({ booksMetadata })),
+        catchError(errorMessage => of(BookEditorActions.loadBooksByUserIdFailed({ errorMessage })))
+      ))
+    );
+  });
+
+  public loadBooksByIds = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(BookEditorActions.loadBooksByIds),
+      mergeMap(action => this.bookEditorService.loadBooksByIds(action.ids).pipe(
+        map(booksMetadata => BookEditorActions.loadBooksByIdsSuccess({ booksMetadata })),
+        catchError(errorMessage => of(BookEditorActions.loadBooksByIdsFailed({ errorMessage })))
       ))
     );
   });
@@ -54,13 +64,23 @@ export class BookEditorEffects {
 
   public updateBookHeading$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(BookEditorActions.updateBookHeading),
+      ofType(BookEditorActions.updateBook),
       mergeMap(action => this.bookEditorService.updateBook(action.bookId, action.title, action.subtitle).pipe(
-        map(bookMetadata => BookEditorActions.updateBookHeadingSuccess({ bookMetadata })),
-        catchError(errorMessage => of(BookEditorActions.updateBookHeadingFailed({ errorMessage })))
+        map(bookMetadata => BookEditorActions.updateBookSuccess({ bookMetadata })),
+        catchError(errorMessage => of(BookEditorActions.updateBookFailed({ errorMessage })))
       ))
     );
   });
+
+  public loadAllBooks$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(BookEditorActions.loadAllBooks),
+      mergeMap(action => this.bookEditorService.loadAllBooks().pipe(
+        map(booksMetadata => BookEditorActions.loadAllBooksSuccess({ booksMetadata })),
+        catchError(errorMessage => of(BookEditorActions.loadAllBooksFailed({ errorMessage })))
+      ))
+    )
+  })
 
   constructor(private actions$: Actions, private bookEditorService: BookEditorService) { }
 }

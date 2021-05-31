@@ -1,3 +1,80 @@
 :host {
   display: block;
+  background: #f6f5f7;
+  font-family: "Nunito", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Roboto:wght@400;500;700&family=Noto+Sans:wght@400;700&display=swap");
+
+.wrapper {
+  max-width: 520px;
+  padding: 30px 25px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  height: 300px;
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0;
+    height: 100%;
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h3 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 28px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        .text-center {
+          text-align: center;
+        }
+        button {
+          box-sizing: border-box;
+          width: 337px;
+          padding: 26px 0;
+          margin-top: 30px;
+          margin-bottom: 30px;
+          font-family: "Noto Sans", sans-serif;
+          outline-style: none;
+          border: none;
+          background: #09bb36;
+          box-shadow: 3px 5px 5px rgba(#07b123, 0.5);
+          border-radius: 5px;
+          font-size: 18px;
+          line-height: 22px;
+          color: #ffffff;
+          cursor: pointer;
+          transition: background 300ms ease-in-out;
+
+          &:hover {
+            background: rgba(#07b123, 0.8);
+            box-shadow: 3px 5px 5px rgba(#07b123, 0.5);
+          }
+        }
+      }
+    }
+
+    .redirect-to-login {
+      span {
+        .redirect {
+          cursor: pointer;
+          text-decoration: none;
+          color: #5b86e6;
+        }
+      }
+    }
+  }
 }

@@ -1,1 +1,13 @@
-<p>step-editor works!</p>
+<ng-container *ngIf="stepMetadata">
+  <div [ngSwitch]="stepMetadata.blockType">
+    <div *ngSwitchCase="blockType.Quiz">
+      <app-quiz-editor [quizMetadata]="quiz$ | async"></app-quiz-editor>
+    </div>
+    <div *ngSwitchCase="blockType.Text">
+      <app-step-text-editor
+        [textMetadata]="text$ | async"
+      ></app-step-text-editor>
+    </div>
+    <div *ngSwitchDefault>incorrect block type</div>
+  </div>
+</ng-container>

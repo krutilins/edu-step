@@ -24,7 +24,7 @@ export const stepTextReducer = createReducer(
 
     return newState;
   }),
-  on(StepTextActions.updateStepTextSuccess, (state, { textMetadata }) => {
+  on(StepTextActions.updateStepText, (state, { textMetadata }) => {
     const newState = deepCopy(state);
 
     const changedStepText = findChangedItem(newState.texts, textMetadata.id);
@@ -32,6 +32,7 @@ export const stepTextReducer = createReducer(
     if (changedStepText) {
       changedStepText.title = textMetadata.title;
       changedStepText.subtitle = textMetadata.subtitle;
+      changedStepText.content = textMetadata.content;
     }
 
     return newState;

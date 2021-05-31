@@ -1,0 +1,15 @@
+<a  class="link" [routerLink]="getLinkForUnit()" >
+  <app-title-group-header
+    class="header"
+    [title]="unitMetadata.title"
+    [subtitle]="unitMetadata.subtitle"
+  ></app-title-group-header>
+</a>
+
+<ng-container *ngFor="let step of stepsMetadata$ | async">
+  <app-step
+    class="item"
+    *ngIf="step.unitId === unitMetadata.id"
+    [stepMetadata]="step"
+  ></app-step>
+</ng-container>

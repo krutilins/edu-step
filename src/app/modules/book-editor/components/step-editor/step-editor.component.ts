@@ -1,9 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ChangeDetectionStrategy, Input, OnInit, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { QuizMetadata } from 'src/app/core/models/metadata/quiz-metadata.model';
+import { StepMetadata } from 'src/app/core/models/metadata/step-metadata.model';
+import { TextMetadata } from 'src/app/core/models/metadata/text-metadata.model';
+import { BlockType } from 'src/app/core/models/types/block-type.model';
+import { loadQuiz } from 'src/app/core/store/actions/quiz.actions';
+import { loadStepText } from 'src/app/core/store/actions/step-text.actions';
 import { AppState } from 'src/app/core/store/models/app-state.model';
+import { selectQuizById } from 'src/app/core/store/selectors/quiz.selectors';
+import { selectStepTextById } from 'src/app/core/store/selectors/step-text.selector';
 
 @Component({
   selector: 'app-step-editor',
@@ -11,29 +17,27 @@ import { AppState } from 'src/app/core/store/models/app-state.model';
   styleUrls: ['./step-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StepEditorComponent implements OnInit, OnDestroy {
+export class StepEditorComponent implements OnChanges {
+  @Input()
+  public stepMetadata: StepMetadata;
 
-  private subscriptions: Subscription[] = [];
+  public text$: Observable<TextMetadata>;
+  public quiz$: Observable<QuizMetadata>;
 
-  constructor(private activatedRoute: ActivatedRoute, private store: Store<AppState>) { }
+  public blockType = BlockType;
 
-  public ngOnInit(): void {
-    this.subscriptions.push(
-      this.activatedRoute.params.pipe(
-        map(params => params.stepId),
-        mergeMap(step => {
-          return this.store.dispatch()
-        })
-      ).subscribe()
-    );
-  }
+  constructor(private store: Store<AppState>) { }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => {
-      if (subscription && subscription.unsubscribe) {
-        subscription.unsubscribe();
+  public ngOnChanges(): void {
+    if (Boolean(this.stepMetadata)) {
+      if (this.stepMetadata.blockType === BlockType.Quiz) {
+        this.store.dispatch(loadQuiz({ stepMetadata: this.stepMetadata }));
+        this.quiz$ = this.store.select(selectQuizById, { id: this.stepMetadata.contentId });
+      } else if (this.stepMetadata.blockType === BlockType.Text) {
+        this.store.dispatch(loadStepText({ stepMetadata: this.stepMetadata }));
+        this.text$ = this.store.select(selectStepTextById, { id: this.stepMetadata.contentId });
       }
-    });
+    }
   }
 
 }

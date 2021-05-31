@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.form {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f0ebf8;
+  border: solid 1px gray;
+  padding: 15px;
+
+  .quesiton {
+    font-size: 16px;
+    letter-spacing: 0.1px;
+    line-height: 24px;
+    color: #202124;
+    font-weight: 400;
+    margin-bottom: 15px;
+    width: 100%;
+    word-break: break-word;
+    font-family: "Google Sans", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .answer {
+  }
+}
+
+.text-input {
+  width: 100%;
+}
+
+.radio-wrapper {
+  display: flex;
+  flex-direction: column;
+}

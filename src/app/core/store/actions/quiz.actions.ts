@@ -23,7 +23,7 @@ export const loadQuizFailed = createAction(
 
 export const updateQuiz = createAction(
   '[Quiz] Update Quiz',
-  props<{ id: string, title: string, subtitle: string, content: string[] }>()
+  props<{ quizMetadata: QuizMetadata }>()
 );
 
 export const updateQuizSuccess = createAction(

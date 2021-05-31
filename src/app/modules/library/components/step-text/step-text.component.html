@@ -1,0 +1,11 @@
+<ng-container *ngIf="textMetadata">
+  <app-title-group-header
+    [title]="textMetadata.title"
+    [subtitle]="textMetadata.subtitle"
+  >
+  </app-title-group-header>
+
+  <div class="content">
+    {{ textMetadata.content }}
+  </div>
+</ng-container>

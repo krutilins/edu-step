@@ -5,10 +5,11 @@ import { StepTextState } from '../models/step-text-state.model';
 
 export const selectStepTexts = (state: AppState): StepTextState => state.stepText;
 
-export const selectQuizById = createSelector(
+export const selectStepTextById = createSelector(
   selectStepTexts,
   (
-    quizState: StepTextState,
+    stepTextState: StepTextState,
     props: { id: string }
-  ): TextMetadata | undefined => quizState.texts.find(text => text.id === props.id)
+  ): TextMetadata | undefined => {
+    return stepTextState.texts.find(text => text.id === props.id)}
 );

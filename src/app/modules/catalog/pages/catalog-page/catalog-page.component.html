@@ -1,1 +1,25 @@
-<p>catalog-page works!</p>
+<div class="wrapper">
+  <ng-container *ngIf="booksMetadata$ | async">
+    <div class="list" *ngIf="(booksMetadata$ | async).length !== 0">
+      <div class="item" *ngFor="let book of booksMetadata$ | async">
+        <app-title-group-header
+          [title]="book.title"
+          [subtitle]="book.subtitle"
+        ></app-title-group-header>
+
+        <app-book-catalog-actions
+          [bookMetadata]="book"
+        ></app-book-catalog-actions>
+      </div>
+    </div>
+  </ng-container>
+  <div class="message-container" *ngIf="(booksMetadata$ | async).length === 0">
+    <div class="message">Catalog is empty</div>
+    <div class="message">
+      <span
+        >You can create one in
+        <span class="link" routerLink="/dashboard/editor">editor</span>
+      </span>
+    </div>
+  </div>
+</div>

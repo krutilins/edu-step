@@ -28,15 +28,21 @@ export class AuthService {
 
   get userState$(): Observable<UserState | null> {
     return this.afAuth.authState.pipe(
-      map(firebaseUser => ({
-        userMetadata: {
-          displayName: firebaseUser.displayName,
-          email: firebaseUser.email,
-          id: firebaseUser.uid,
-          photoURL: firebaseUser.photoURL,
-          emailVerified: firebaseUser.emailVerified
+      map(firebaseUser => {
+        if (firebaseUser) {
+          return {
+            userMetadata: {
+              displayName: firebaseUser.displayName,
+              email: firebaseUser.email,
+              id: firebaseUser.uid,
+              photoURL: firebaseUser.photoURL,
+              emailVerified: firebaseUser.emailVerified
+            }
+          };
+        } else {
+          return null;
         }
-      }))
+      })
     );
   }
 

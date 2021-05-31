@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+}
+
+.btn {
+  box-shadow: 0px 0px 11px 0px #3dc21b;
+  background-color: #44c767;
+  border-radius: 10px;
+  border: 2px solid #18ab29;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 16px;
+  padding: 5px 15px;
+  text-decoration: none;
+}
+.btn:hover {
+  background-color: #5cbf2a;
+}
+.btn:active {
+  position: relative;
+  top: 1px;
+}
+
+.progress {
+  width: 90%;
+  border: 1px solid gray;
+
+  .progress-bar {
+    background-color: green;
+  }
+}

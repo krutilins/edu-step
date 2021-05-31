@@ -1,3 +1,46 @@
 :host {
-  display: block;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 30px 10px 10px 10px;
+  background-color: white;
+}
+
+.app-book-content {
+  height: 100%;
+  width: 75%;
+}
+
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  padding: 10px;
+  width: 100%;
+
+  border: 1px solid #212121;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+
+  background-color: rgba(0, 0, 0, 0.2);
+
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  padding: 10px;
+  width: 100%;
+
+  border: 1px solid #212121;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
 }

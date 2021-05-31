@@ -23,7 +23,7 @@ export const loadStepTextFailed = createAction(
 
 export const updateStepText = createAction(
   '[Step Text] Update Step Text',
-  props<{ id: string, title: string, subtitle: string, content: string[] }>()
+  props<{ textMetadata: TextMetadata }>()
 );
 
 export const updateStepTextSuccess = createAction(

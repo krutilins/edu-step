@@ -14,11 +14,10 @@
 
     text-decoration: none;
     color: white;
-    background: #b0bec5;
     width: 120px;
 
     &.active {
-      border: 3px solid black;
+      color: #c2185b;
     }
   }
 }

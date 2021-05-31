@@ -1,5 +1,7 @@
 import { BookEditorState } from './book-editor-state.model';
+import { LibraryState } from './library-state.model';
 import { QuestionState } from './question-state.model';
+import { QuizResultState } from './quiz-result-state.model';
 import { QuizState } from './quiz-state.model';
 import { SidebarState } from './sidebar-state.model';
 import { StepEditorState } from './step-editor.model';
@@ -16,4 +18,6 @@ export interface AppState {
   stepText: StepTextState;
   quiz: QuizState;
   question: QuestionState;
+  quizResult: QuizResultState;
+  library: LibraryState;
 }

@@ -1,0 +1,33 @@
+<ng-container *ngIf="textMetadata">
+  <form [formGroup]="textMetadataForm" class="example-form">
+    <div class="example-full-width">
+      <label>Title</label>
+      <textarea
+        cdkTextareaAutosize
+        matInput
+        placeholder="Title"
+        formControlName="title"
+      ></textarea>
+    </div>
+
+    <div class="example-full-width">
+      <label>Subtitle</label>
+      <textarea
+        cdkTextareaAutosize
+        matInput
+        placeholder="Subtitle"
+        formControlName="subtitle"
+      ></textarea>
+    </div>
+
+    <div class="example-full-width">
+      <label>Step content</label>
+      <textarea
+        cdkTextareaAutosize
+        matInput
+        placeholder="Step content"
+        formControlName="content"
+      ></textarea>
+    </div>
+  </form>
+</ng-container>

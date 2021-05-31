@@ -1,0 +1,10 @@
+<a class="link" href="{{ fileUpload.url }}">{{ fileUpload.name }}</a>
+<ng-container *ngIf="deletable">
+  <button
+    (click)="deleteFileUpload(fileUpload)"
+    class="btn"
+    style="float: right"
+  >
+    Delete
+  </button>
+</ng-container>

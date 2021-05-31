@@ -1,9 +1,9 @@
-<div class="displayTable">
-  <div class="displayTableCell">
-    <div class="authBlock">
+<div class="wrapper">
+  <div class="block">
+    <div class="header-text">
       <h3>Thank You for Registering</h3>
 
-      <div class="formGroup" *ngIf="(userMetadata | async) !== null">
+      <div class="form-group" *ngIf="(userMetadata | async) !== null">
         <p class="text-center">
           We have sent a confirmation email to
           <strong>{{ (userMetadata | async)?.email }}</strong
@@ -15,7 +15,7 @@
         </p>
       </div>
 
-      <div class="formGroup">
+      <div class="form-group">
         <button
           type="button"
           class="btn btnPrimary"
@@ -27,12 +27,11 @@
       </div>
     </div>
 
-    <div class="redirectToLogin">
-      <span
-        >Go back to?<span class="redirect" routerLink="/auth/sign-in">
-          Sign in</span
-        ></span
-      >
+    <div class="redirect-to-login">
+      <span>
+        Go back to?
+        <span class="redirect" routerLink="/auth/sign-in"> Sign in</span>
+      </span>
     </div>
   </div>
 </div>

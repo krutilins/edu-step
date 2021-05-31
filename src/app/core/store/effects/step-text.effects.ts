@@ -23,8 +23,8 @@ export class StepTextEffects {
   public updateStepText = createEffect(() => {
     return this.actions$.pipe(
       ofType(StepTextActions.updateStepText),
-      mergeMap(action => this.bookEditorService.updateStepText(action.id, action.title, action.subtitle, action.content).pipe(
-        map(textMetadata => StepTextActions.updateStepTextSuccess({ textMetadata })),
+      mergeMap(action => this.bookEditorService.updateStepText(action.textMetadata).pipe(
+        // map(textMetadata => StepTextActions.updateStepTextSuccess({ textMetadata })),
         catchError(errorMessage => of(StepTextActions.updateStepTextFailed({ errorMessage })))
       ))
     );

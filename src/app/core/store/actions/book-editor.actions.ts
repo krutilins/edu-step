@@ -1,20 +1,53 @@
 import { createAction, props } from '@ngrx/store';
 import { BookMetadata } from '../../models/metadata/book-metadata.model';
 
-// LOAD BOOKS
+// LOAD ALL BOOKS
 
-export const loadBooksPreviews = createAction(
-  '[Book Editor] Load Books Preview',
-  props<{ userId: string }>()
+export const loadAllBooks = createAction(
+  '[Book Editor] Load All Books'
 );
 
-export const loadBooks = createAction(
-  '[Book Editor API] Load Books Preview Success',
+export const loadAllBooksSuccess = createAction(
+  '[Book Editor API] Load All Books Success',
   props<{ booksMetadata: BookMetadata[] }>()
 );
 
-export const loadBooksFailed = createAction(
-  '[Book Editor API] Load Books Preview Failed',
+export const loadAllBooksFailed = createAction(
+  '[Book Editor API] Load All Books Failed',
+  props<{ errorMessage: string }>()
+);
+
+// LOAD BOOKS BY USER ID
+
+export const loadBooksByUserId = createAction(
+  '[Book Editor] Load Books By User Id',
+  props<{ userId: string }>()
+);
+
+export const loadBooksByUserIdSuccess = createAction(
+  '[Book Editor API] Load Books By User Id Success',
+  props<{ booksMetadata: BookMetadata[] }>()
+);
+
+export const loadBooksByUserIdFailed = createAction(
+  '[Book Editor API] Load Books By User Id Failed',
+  props<{ errorMessage: string }>()
+);
+
+// LOAD BOOKS BY IDS
+
+export const loadBooksByIds = createAction(
+  '[Book Editor] Load Books By Ids',
+  props<{ ids: string[] }>()
+);
+
+export const loadBooksByIdsSuccess = createAction(
+  '[Book Editor API] Load Books By Ids Success',
+  props<{ booksMetadata: BookMetadata[] }>()
+);
+
+export const loadBooksByIdsFailed = createAction(
+  '[Book Editor API] Load Books By Ids Failed',
   props<{ errorMessage: string }>()
 );
 
@@ -71,18 +104,18 @@ export const loadBookFailed = createAction(
 
 // UPDATE BOOK HEADING
 
-export const updateBookHeading = createAction(
-  '[Book Editor] Update Book Heading',
+export const updateBook = createAction(
+  '[Book Editor] Update Book',
   props<{ bookId: string, title: string, subtitle: string }>()
 );
 
-export const updateBookHeadingSuccess = createAction(
-  '[Book Editor API] Update Book Heading Success',
+export const updateBookSuccess = createAction(
+  '[Book Editor API] Update Book Success',
   props<{ bookMetadata: BookMetadata }>()
 );
 
-export const updateBookHeadingFailed = createAction(
-  '[Book Editor API] Update Book Heading Failed',
+export const updateBookFailed = createAction(
+  '[Book Editor API] Update Book Failed',
   props<{ errorMessage: string }>()
 );
 

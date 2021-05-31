@@ -1,22 +1,12 @@
-<mat-toolbar class="toolbar" color="primary">
-  <a
-    class="link"
-    routerLink="./"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-  >
-    <span>logo</span>
-  </a>
+<mat-toolbar class="toolbar">
   <a class="link" routerLink="catalog" routerLinkActive="active">
-    <span>catalog</span>
+    <span>Catalog</span>
   </a>
   <a class="link" routerLink="library" routerLinkActive="active">
-    <span>library</span>
+    <span>Library</span>
   </a>
   <a class="link" routerLink="editor" routerLinkActive="active">
-    <span>editor</span>
+    <span>Editor</span>
   </a>
-  <a class="link" routerLink="profile" routerLinkActive="active">
-    <span>profile</span>
-  </a>
+  <app-profile></app-profile>
 </mat-toolbar>

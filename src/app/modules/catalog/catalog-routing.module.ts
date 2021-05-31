@@ -1,7 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CatalogPageComponent } from './pages/catalog-page/catalog-page.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        component: CatalogPageComponent,
+        pathMatch: 'full'
+      },
+    ],
+    component: CatalogPageComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

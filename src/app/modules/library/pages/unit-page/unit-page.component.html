@@ -1,0 +1,22 @@
+<ng-container *ngIf="unitMetadata$ | async">
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer class="drawer" mode="side" [opened]="sidebar$ | async">
+      <app-book-content
+        [bookMetadata]="bookMetadata$ | async"
+      ></app-book-content>
+    </mat-drawer>
+    <mat-drawer-content class="content">
+      <app-library-toolbar class="toolbar"></app-library-toolbar>
+      <app-title-group-header
+        class="header"
+        [title]="(unitMetadata$ | async).title"
+        [subtitle]="(unitMetadata$ | async).subtitle"
+      ></app-title-group-header>
+      <app-upload-list
+        class="upload-list"
+        [unitMetadata]="unitMetadata$ | async"
+        [changeable]="false"
+      ></app-upload-list>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ng-container>

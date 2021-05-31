@@ -3,49 +3,49 @@ import { CommonModule } from '@angular/common';
 
 import { BookEditorRoutingModule } from './book-editor-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { BookCreationDialogComponent } from './components/book-creation-dialog/book-creation-dialog.component';
-import { BookListPageComponent } from './pages/book-list-page/book-list-page.component';
-import { BookEditorComponent } from './book-editor.component';
-import { BookPreviewComponent } from './components/book-preview/book-preview.component';
-import { BookHeadingEditorComponent } from './components/book-heading-editor/book-heading-editor.component';
-import { UnitCreationDialogComponent } from './components/unit-creation-dialog/unit-creation-dialog.component';
-import { UnitPreviewComponent } from './components/unit-preview/unit-preview.component';
-import { StepCreationDialogComponent } from './components/step-creation-dialog/step-creation-dialog.component';
-import { StepPreviewComponent } from './components/step-preview/step-preview.component';
-import { BookContentComponent } from './components/book-content/book-content.component';
-import { BookContentPageComponent } from './pages/book-content-page/book-content-page.component';
-import { StepEditorPageComponent } from './pages/step-editor-page/step-editor-page.component';
-import { StepEditorComponent } from './components/step-editor/step-editor.component';
-import { StepEditorToolbarComponent } from './components/step-editor-toolbar/step-editor-toolbar.component';
-import { QuizEditorComponent } from './components/quiz-editor/quiz-editor.component';
-import { QuestionEditorComponent } from './components/question-editor/question-editor.component';
-import { UnitComponent } from './components/unit/unit.component';
 
+import { BookListPageComponent } from './pages/book-list-page/book-list-page.component';
+import { BookContentPageComponent } from './pages/book-content-page/book-content-page.component';
+import { BookCreationDialogComponent } from './creation-dialogs/book-creation-dialog/book-creation-dialog.component';
+import { QuestionCreationDialogComponent } from './creation-dialogs/question-creation-dialog/question-creation-dialog.component';
+import { StepCreationDialogComponent } from './creation-dialogs/step-creation-dialog/step-creation-dialog.component';
+import { UnitCreationDialogComponent } from './creation-dialogs/unit-creation-dialog/unit-creation-dialog.component';
+import { StepEditorPageComponent } from './pages/step-editor-page/step-editor-page.component';
+import { StepEditorActionsComponent } from './components/step-editor-actions/step-editor-actions.component';
+import { UnitEditorActionsComponent } from './components/unit-editor-actions/unit-editor-actions.component';
+import { BookEditorActionsComponent } from './components/book-editor-actions/book-editor-actions.component';
+import { StepTextEditorComponent } from './components/step-text-editor/step-text-editor.component';
+import { UnitEditorComponent } from './components/unit-editor/unit-editor.component';
+import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolbar.component';
+import { QuizEditorComponent } from './components/quiz-editor/quiz-editor.component';
+import { StepEditorComponent } from './components/step-editor/step-editor.component';
+import { UnitEditorPageComponent } from './pages/unit-editor-page/unit-editor-page.component';
+import { FileLoaderModule } from '../file-loader/file-loader.module';
 
 @NgModule({
   declarations: [
-    BookCreationDialogComponent,
-    BookListPageComponent,
-    BookEditorComponent,
-    BookPreviewComponent,
-    BookHeadingEditorComponent,
-    UnitCreationDialogComponent,
-    UnitPreviewComponent,
-    StepCreationDialogComponent,
-    StepPreviewComponent,
-    BookContentComponent,
-    BookContentPageComponent,
     StepEditorPageComponent,
-    StepEditorComponent,
-    StepEditorToolbarComponent,
+    BookListPageComponent,
+    BookContentPageComponent,
+    BookCreationDialogComponent,
+    QuestionCreationDialogComponent,
+    StepCreationDialogComponent,
+    UnitCreationDialogComponent,
+    StepEditorActionsComponent,
+    UnitEditorActionsComponent,
+    BookEditorActionsComponent,
+    StepTextEditorComponent,
+    UnitEditorComponent,
+    EditorToolbarComponent,
     QuizEditorComponent,
-    QuestionEditorComponent,
-    UnitComponent
+    StepEditorComponent,
+    UnitEditorPageComponent
   ],
   imports: [
     CommonModule,
     BookEditorRoutingModule,
-    SharedModule
+    SharedModule,
+    FileLoaderModule
   ]
 })
 export class BookEditorModule { }

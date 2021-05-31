@@ -10,29 +10,63 @@ const initialState: BookEditorState = {
 
 export const bookEditorReducer = createReducer(
   initialState,
-  on(BookEditorActions.loadBooks, (state, action) => {
+  on(BookEditorActions.loadBooksByUserIdSuccess, (state, action) => {
     const newState = deepCopy(state);
 
-    newState.books = action.booksMetadata;
+    // action.booksMetadata.forEach(actionBook => {
+    //   let changedBook = newState.books.find(book => book.id === actionBook.id);
+    //   if (changedBook) {
+    //     changedBook = actionBook;
+    //   } else {
+    //     newState.books.push(actionBook);
+    //   }
+    // });
+
+    for (const actionBook of action.booksMetadata) {
+      let exists = false;
+
+      for (let book of newState.books) {
+        if (book.id === actionBook.id) {
+          exists = true;
+          book = actionBook;
+        }
+      }
+
+      if (!exists) {
+        newState.books.push(actionBook);
+      }
+    }
 
     return newState;
   }),
-  on(BookEditorActions.loadBooksFailed, (state, action) => ({
-    ...state
-  })),
+  on(BookEditorActions.loadBooksByIdsSuccess, (state, action) => {
+    const newState = deepCopy(state);
+
+
+    for (const actionBook of action.booksMetadata) {
+      let exists = false;
+
+      for (let book of newState.books) {
+        if (book.id === actionBook.id) {
+          exists = true;
+          book = actionBook;
+        }
+      }
+
+      if (!exists) {
+        newState.books.push(actionBook);
+      }
+    }
+
+    return newState;
+  }),
   on(BookEditorActions.createBookSuccess, (state, action) => ({
     ...state,
     books: [...state.books, action.bookMetadata]
   })),
-  on(BookEditorActions.createBookFailed, (state, action) => ({
-    ...state
-  })),
   on(BookEditorActions.deleteBookSuccess, (state, action) => ({
     ...state,
     books: state.books.filter(book => book.id !== action.bookMetadata.id)
-  })),
-  on(BookEditorActions.deleteBookFailed, (state, action) => ({
-    ...state
   })),
   on(BookEditorActions.loadBookSuccess, (state, action) => {
     const newState = deepCopy(state);
@@ -40,15 +74,12 @@ export const bookEditorReducer = createReducer(
     const changedBook = findChangedItem(newState.books, action.bookMetadata.id);
 
     if (!changedBook) {
-      newState.books = [...newState.books, action.bookMetadata];
+      newState.books.push(action.bookMetadata);
     }
 
     return newState;
   }),
-  on(BookEditorActions.loadBookFailed, (state, action) => ({
-    ...state
-  })),
-  on(BookEditorActions.updateBookHeadingSuccess, (state, actions) => {
+  on(BookEditorActions.updateBookSuccess, (state, actions) => {
     const newState = deepCopy(state);
 
     const bookMetadata = actions.bookMetadata;
@@ -62,8 +93,26 @@ export const bookEditorReducer = createReducer(
 
     return newState;
   }),
-  on(BookEditorActions.updateBookHeadingFailed, (state, action) => ({
-    ...state
-  })),
+  on(BookEditorActions.loadAllBooksSuccess, (state, action) => {
+    const newState = deepCopy(state);
+
+
+    for (const actionBook of action.booksMetadata) {
+      let exists = false;
+
+      for (let book of newState.books) {
+        if (book.id === actionBook.id) {
+          exists = true;
+          book = actionBook;
+        }
+      }
+
+      if (!exists) {
+        newState.books.push(actionBook);
+      }
+    }
+
+    return newState;
+  })
 );
 

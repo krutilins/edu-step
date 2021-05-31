@@ -1,0 +1,8 @@
+<ng-container *ngIf="bookMetadata">
+  <app-title-group-header class="header"
+    [title]="bookMetadata.title"
+    [subtitle]="bookMetadata.subtitle"
+  ></app-title-group-header>
+
+  <app-unit class="unit" *ngFor="let unit of unitsMetadata$ | async" [unitMetadata]="unit"></app-unit>
+</ng-container>

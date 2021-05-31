@@ -21,6 +21,11 @@ import { UserEffects } from './core/store/effects/user.effects';
 import { BookEditorEffects } from './core/store/effects/book-editor.effects';
 import { StepEditorEffects } from './core/store/effects/step-editor.effects';
 import { UnitEditorEffects } from './core/store/effects/unit-editor.effects';
+import { StepTextEffects } from './core/store/effects/step-text.effects';
+import { QuizEffects } from './core/store/effects/quiz.effects';
+import { QuestionEffects } from './core/store/effects/question.effects';
+import { LibraryEffects } from './core/store/effects/library.effects';
+import { QuizResultEffects } from './core/store/effects/quiz-result.effects';
 
 @NgModule({
   declarations: [
@@ -44,7 +49,12 @@ import { UnitEditorEffects } from './core/store/effects/unit-editor.effects';
       UserEffects,
       BookEditorEffects,
       StepEditorEffects,
-      UnitEditorEffects
+      UnitEditorEffects,
+      StepTextEffects,
+      QuizEffects,
+      QuestionEffects,
+      LibraryEffects,
+      QuizResultEffects
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

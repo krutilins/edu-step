@@ -1,9 +1,10 @@
-<mat-drawer-container class="drawer-container">
-  <mat-drawer class="drawer" [opened]="open$ | async" mode="side">
-    <app-book-content></app-book-content>
-  </mat-drawer>
-  <mat-drawer-content class="drawer-content">
-    <app-step-editor-toolbar></app-step-editor-toolbar>
-    <app-step-editor></app-step-editor>
-  </mat-drawer-content>
-</mat-drawer-container>
+<div class="container" *ngIf="stepMetadata$ | async">
+  <div class="editor">
+    <app-step-editor class="step-editor" [stepMetadata]="stepMetadata$ | async"></app-step-editor>
+  </div>
+  <div class="footer">
+    <app-editor-toolbar
+      [bookId]="(stepMetadata$ | async).bookId"
+    ></app-editor-toolbar>
+  </div>
+</div>

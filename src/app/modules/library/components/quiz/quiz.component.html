@@ -1,0 +1,20 @@
+<ng-container *ngIf="quizMetadata">
+  <div class="quiz-heading">
+    <app-title-group-header
+      [title]="quizMetadata.title"
+      [subtitle]="quizMetadata.subtitle"
+    ></app-title-group-header>
+  </div>
+  <app-question
+    *ngFor="let question of questions$ | async"
+    [questionMetadata]="question"
+    [disabled]="resultIsSent"
+    [changeable]="false"
+    (answer)="updateAnswers($event)"
+  ></app-question>
+
+  <div class="sent-wrapper">
+    <button mat-raised-button (click)="sendQuizResults()">Send result</button>
+    <div class="sent-message" *ngIf="resultIsSent">Result is sent</div>
+  </div>
+</ng-container>

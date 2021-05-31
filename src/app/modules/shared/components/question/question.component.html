@@ -1,0 +1,61 @@
+<ng-container *ngIf="questionMetadata !== undefined">
+  <form class="form" [formGroup]="questionForm">
+    <div class="quesiton">
+      {{ questionMetadata.question }}
+    </div>
+    <div class="answer">
+      <div [ngSwitch]="questionMetadata.answerType">
+        <div *ngSwitchCase="AnswerType.Text">
+          <label>
+            <textarea
+              class="text-input"
+              placeholder="Enter an answer"
+              formControlName="userAnswer"
+              color="primary"
+              (change)="onUserAnswerChange()"
+              cdkTextareaAutosize
+            >
+            </textarea>
+          </label>
+        </div>
+
+        <div class="radio-wrapper" *ngSwitchCase="AnswerType.Radio">
+          <label class="radio" *ngFor="let option of questionMetadata.options">
+            <input
+              type="radio"
+              (change)="onUserAnswerChange()"
+              [value]="option.id"
+              formControlName="userAnswer"
+            />
+
+            {{ option.content }}</label
+          >
+        </div>
+
+        <div *ngSwitchCase="AnswerType.Multiple">
+          <div formArrayName="userAnswer">
+            <div *ngFor="let option of userAnswer.controls; let i = index">
+              <div [formGroupName]="i" (change)="onUserAnswerChange()">
+                <input type="checkbox" formControlName="state" />
+                <mat-label>{{ option.get("content").value }}</mat-label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchDefault>incorrect answer type</div>
+      </div>
+
+      <ng-container *ngIf="changeable">
+        <button mat-raised-button (click)="onUpdateQuestion()">
+          <mat-icon>edit</mat-icon>
+          Update
+        </button>
+        <button mat-raised-button (click)="onDeleteQuestion()">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </ng-container>
+    </div>
+  </form>
+</ng-container>

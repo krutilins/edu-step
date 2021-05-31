@@ -1,0 +1,28 @@
+<div class="step-list">
+  <div class="unit-header">
+    <app-title-group-header
+      [title]="unitMetadata.title"
+      [subtitle]="unitMetadata.subtitle"
+    ></app-title-group-header>
+
+    <app-unit-editor-actions
+      [unitMetadata]="unitMetadata"
+    ></app-unit-editor-actions>
+  </div>
+
+  <ng-container *ngFor="let step of steps$ | async">
+    <div class="step-header" *ngIf="step.unitId === unitMetadata.id">
+      <app-title-group-header
+        [title]="step.title"
+        [subtitle]="step.subtitle"
+      ></app-title-group-header>
+
+      <app-step-editor-actions [stepMetadata]="step"></app-step-editor-actions>
+    </div>
+  </ng-container>
+
+  <button mat-raised-button (click)="openStepCreationDialog(unitMetadata.id)">
+    <mat-icon>add</mat-icon>
+    Add Step
+  </button>
+</div>

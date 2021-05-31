@@ -1,0 +1,88 @@
+<div class="root">
+  <button mat-button class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div mat-dialog-content class="container">
+    <form class="form" [formGroup]="questionForm">
+      <mat-form-field class="input-field">
+        <mat-label>Question</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Enter a question"
+          formControlName="question"
+          [errorStateMatcher]="errorMatcher"
+          value="{{ data.question }}"
+        />
+      </mat-form-field>
+
+      <div>
+        <mat-radio-group
+          aria-label="Select a type for question"
+          formControlName="answerType"
+        >
+          <mat-radio-button [value]="AnswerType.Radio">Radio</mat-radio-button>
+          <mat-radio-button [value]="AnswerType.Multiple"
+            >Multiple</mat-radio-button
+          >
+          <mat-radio-button [value]="AnswerType.Text">Text</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <mat-checkbox formControlName="required">Required</mat-checkbox>
+
+      <div *ngIf="answerType.value !== AnswerType.Text">
+        <div formArrayName="options">
+          <div *ngFor="let skill of options.controls; let i = index">
+            <div [formGroupName]="i">
+              {{ i + 1 }}
+              option :
+              <input type="text" formControlName="content" />
+              <button
+                (click)="removeOption(i)"
+                [disabled]="this.options.value.length <= 1"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <button type="button" (click)="addOption('empty option')">Add</button>
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="modal-buttons">
+    <button
+      mat-button
+      class="btn"
+      color="warn"
+      [disabled]="handleDisableDeleteButton()"
+      (click)="handleDeleteQuestion()"
+    >
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+
+    <div>
+      <button mat-button class="btn" (click)="onClose()">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+
+      <button
+        mat-button
+        class="btn"
+        [disabled]="handleDisableSaveButton()"
+        (click)="handleModalAction()"
+      >
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+    </div>
+  </div>
+</div>
