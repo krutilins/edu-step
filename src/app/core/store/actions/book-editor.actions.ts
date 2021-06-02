@@ -55,7 +55,7 @@ export const loadBooksByIdsFailed = createAction(
 
 export const createBook = createAction(
   '[Book Editor] Create Book',
-  props<{ owner: string, title: string, subtitle: string }>()
+  props<{ bookMetadata: Omit<BookMetadata, 'id'> }>()
 );
 
 export const createBookSuccess = createAction(
@@ -106,7 +106,7 @@ export const loadBookFailed = createAction(
 
 export const updateBook = createAction(
   '[Book Editor] Update Book',
-  props<{ bookId: string, title: string, subtitle: string }>()
+  props<{ bookMetadataUpdate: BookMetadata }>()
 );
 
 export const updateBookSuccess = createAction(

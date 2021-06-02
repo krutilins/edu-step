@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable, of, throwError } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { v4 as uuidv4 } from 'uuid';
 import { deepCopy } from '../functions/deep-copy.function';
 import { BookMetadata } from '../models/metadata/book-metadata.model';
@@ -19,73 +20,63 @@ import { TextType } from '../models/types/text-type.model';
   providedIn: 'root'
 })
 export class BookEditorService {
-  // TODO: change to env
-  private readonly booksCollectionKey = 'books';
-  private readonly unitsCollectionKey = 'units';
-  private readonly stepsCollectionKey = 'steps';
-  private readonly textCollectionKey = 'texts';
-  private readonly quizCollectionKey = 'quizes';
-  private readonly questionsCollectionKey = 'questions';
-  private readonly quizResultsCollectionKey = 'quizResults';
-  private readonly libraryCollectionKey = 'library';
 
   constructor(private firestore: AngularFirestore) { }
 
   // BOOK CRUD
 
-  public createBook(title: string, subtitle: string, owner: string): Observable<BookMetadata> {
+  public createBook(bookMetadata: Omit<BookMetadata, 'id'>): Observable<BookMetadata> {
     const newBook: BookMetadata = {
-      id: uuidv4(),
-      owner,
-      title,
-      subtitle
+      ...bookMetadata,
+      id: uuidv4()
     };
 
-    return from(this.firestore.collection<BookMetadata>(this.booksCollectionKey).doc(newBook.id).set(newBook).then(_ => newBook));
+    return from(
+      this.firestore.collection<BookMetadata>(environment.firebaseEndpoints.books).doc(newBook.id).set(newBook).then(_ => newBook)
+    );
   }
 
   public loadAllBooks(): Observable<BookMetadata[]> {
-    return this.firestore.collection<BookMetadata>(this.booksCollectionKey).get().pipe(
+    return this.firestore.collection<BookMetadata>(environment.firebaseEndpoints.books).get().pipe(
       map(bookQuery => bookQuery.docs.map(bookData => bookData.data()))
     );
   }
 
-
   public loadBook(id: string): Observable<BookMetadata> {
-    return this.firestore.collection<BookMetadata>(this.booksCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<BookMetadata>(environment.firebaseEndpoints.books).doc(id).get().pipe(
       map(bookMetadataSnapshot => bookMetadataSnapshot.data())
     );
   }
 
   public loadBooksByUserId(userId: string): Observable<BookMetadata[]> {
-    return this.firestore.collection<BookMetadata>(this.booksCollectionKey, (ref) => ref.where('owner', '==', userId)).get().pipe(
+    return this.firestore.collection<BookMetadata>(
+      environment.firebaseEndpoints.books,
+      (ref) => ref.where('owner', '==', userId)
+    ).get().pipe(
       map(bookQuery => bookQuery.docs.map(bookData => bookData.data()))
     );
   }
 
   public loadBooksByIds(ids: string[]): Observable<BookMetadata[]> {
     if (ids.length === 0) {
-      return from([]);
+      return of([]);
     }
-    return this.firestore.collection<BookMetadata>(this.booksCollectionKey, ref => ref.where('id', 'in', ids)).get().pipe(
+
+    return this.firestore.collection<BookMetadata>(environment.firebaseEndpoints.books, ref => ref.where('id', 'in', ids)).get().pipe(
       map(bookMetadataQuery => bookMetadataQuery.docs.map(bookMetadataSnapshot => bookMetadataSnapshot.data()))
     );
   }
 
-  public updateBook(id: string, title: string, subtitle: string): Observable<BookMetadata> {
-    return this.firestore.collection<BookMetadata>(this.booksCollectionKey).doc(id).get().pipe(
+  public updateBook(bookMetadataUpdate: BookMetadata): Observable<BookMetadata> {
+    return this.firestore.collection<BookMetadata>(environment.firebaseEndpoints.books).doc(bookMetadataUpdate.id).get().pipe(
       mergeMap(bookMetadataSnapshot => {
         if (bookMetadataSnapshot.exists) {
-          return from(bookMetadataSnapshot.ref.update({
-            title,
-            subtitle
-          }).then(
-            () => ({
+          return from(
+            bookMetadataSnapshot.ref.update(bookMetadataUpdate).then(() => ({
               ...bookMetadataSnapshot.data(),
-              title,
-              subtitle
-            })
-          ));
+              ...bookMetadataUpdate
+            }))
+          );
         } else {
           return throwError('book metadata not exists');
         }
@@ -94,7 +85,7 @@ export class BookEditorService {
   }
 
   public deleteBook(id: string): Observable<BookMetadata> {
-    return this.firestore.collection<BookMetadata>(this.booksCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<BookMetadata>(environment.firebaseEndpoints.books).doc(id).get().pipe(
       mergeMap(bookSnapshot => from(bookSnapshot.ref.delete().then(() => bookSnapshot.data())))
     );
   }
@@ -108,11 +99,13 @@ export class BookEditorService {
       contentId: uuidv4(),
     };
 
-    return from(this.firestore.collection<StepMetadata>(this.stepsCollectionKey).doc(newStep.id).set(newStep).then(_ => newStep));
+    return from(
+      this.firestore.collection<StepMetadata>(environment.firebaseEndpoints.steps).doc(newStep.id).set(newStep).then(_ => newStep)
+    );
   }
 
   public loadStep(id: string): Observable<StepMetadata> {
-    return this.firestore.collection<StepMetadata>(this.stepsCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<StepMetadata>(environment.firebaseEndpoints.steps).doc(id).get().pipe(
       map(stepSnapshot => {
         if (stepSnapshot.exists) {
           return stepSnapshot.data();
@@ -125,7 +118,7 @@ export class BookEditorService {
 
   public loadStepsByUnitId(unitId: string): Observable<StepMetadata[]> {
     return this.firestore.collection<StepMetadata>(
-      this.stepsCollectionKey,
+      environment.firebaseEndpoints.steps,
       ref => ref.where('unitId', '==', unitId)
     ).get().pipe(
       map(stepsQuery => stepsQuery.docs.map(stepSnapshot => stepSnapshot.data()))
@@ -134,25 +127,21 @@ export class BookEditorService {
 
   public loadStepsByBookId(bookId: string): Observable<StepMetadata[]> {
     return this.firestore.collection<StepMetadata>(
-      this.stepsCollectionKey,
+      environment.firebaseEndpoints.steps,
       ref => ref.where('bookId', '==', bookId)
     ).get().pipe(
       map(stepsQuery => stepsQuery.docs.map(stepSnapshot => stepSnapshot.data()))
     );
   }
 
-  public updateStep(id: string, title: string, subtitle: string): Observable<StepMetadata> {
-    return this.firestore.collection<StepMetadata>(this.stepsCollectionKey).doc(id).get().pipe(
+  public updateStep(stepMetadataUpdate: StepMetadata): Observable<StepMetadata> {
+    return this.firestore.collection<StepMetadata>(environment.firebaseEndpoints.steps).doc(stepMetadataUpdate.id).get().pipe(
       mergeMap(stepMetadataSnapshot => {
         if (stepMetadataSnapshot.exists) {
-          return from(stepMetadataSnapshot.ref.update({
-            title,
-            subtitle
-          }).then(
+          return from(stepMetadataSnapshot.ref.update(stepMetadataUpdate).then(
             () => ({
               ...stepMetadataSnapshot.data(),
-              title,
-              subtitle
+              ...stepMetadataUpdate
             })
           ));
         } else {
@@ -163,18 +152,18 @@ export class BookEditorService {
   }
 
   public deleteStep(id: string): Observable<StepMetadata> {
-    return this.firestore.collection<StepMetadata>(this.stepsCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<StepMetadata>(environment.firebaseEndpoints.steps).doc(id).get().pipe(
       mergeMap(stepSnapshot => {
 
         if (stepSnapshot.data().blockType === BlockType.Text) {
-          this.firestore.collection<TextMetadata>(this.textCollectionKey).doc(stepSnapshot.data().contentId).delete();
+          this.firestore.collection<TextMetadata>(environment.firebaseEndpoints.text).doc(stepSnapshot.data().contentId).delete();
 
         } else {
-          this.firestore.collection<QuizMetadata>(this.quizCollectionKey).doc(stepSnapshot.data().contentId).get().pipe(
+          this.firestore.collection<QuizMetadata>(environment.firebaseEndpoints.quiz).doc(stepSnapshot.data().contentId).get().pipe(
             mergeMap(quizSnpashot => {
 
               return this.firestore.collection<QuestionMetadata>(
-                this.questionsCollectionKey,
+                environment.firebaseEndpoints.questions,
                 ref => ref.where('quizId', '==', quizSnpashot.data().id)
               ).get().pipe(
                 map(questionQuery => questionQuery.docs.map(questionSnapshot => questionSnapshot.ref.delete()))
@@ -196,36 +185,34 @@ export class BookEditorService {
       id: uuidv4(),
     };
 
-    return from(this.firestore.collection<UnitMetadata>(this.unitsCollectionKey).doc(newUnit.id).set(newUnit).then(_ => newUnit));
+    return from(
+      this.firestore.collection<UnitMetadata>(environment.firebaseEndpoints.units).doc(newUnit.id).set(newUnit).then(_ => newUnit)
+    );
   }
 
   public loadUnitById(id: string): Observable<UnitMetadata> {
-    return this.firestore.collection<UnitMetadata>(this.unitsCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<UnitMetadata>(environment.firebaseEndpoints.units).doc(id).get().pipe(
       map(unitSnapshot => unitSnapshot.data())
     );
   }
 
   public loadUnitsByBookId(bookId: string): Observable<UnitMetadata[]> {
     return this.firestore.collection<UnitMetadata>(
-      this.unitsCollectionKey,
+      environment.firebaseEndpoints.units,
       ref => ref.where('bookId', '==', bookId)
     ).get().pipe(
       map(unitsQuery => unitsQuery.docs.map(unitSnapshot => unitSnapshot.data()))
     );
   }
 
-  public updateUnit(id: string, title: string, subtitle: string): Observable<UnitMetadata> {
-    return this.firestore.collection<UnitMetadata>(this.unitsCollectionKey).doc(id).get().pipe(
+  public updateUnit(unitMetadataUpdate: UnitMetadata): Observable<UnitMetadata> {
+    return this.firestore.collection<UnitMetadata>(environment.firebaseEndpoints.units).doc(unitMetadataUpdate.id).get().pipe(
       mergeMap(unitMetadataSnapshot => {
         if (unitMetadataSnapshot.exists) {
-          return from(unitMetadataSnapshot.ref.update({
-            title,
-            subtitle
-          }).then(
+          return from(unitMetadataSnapshot.ref.update(unitMetadataUpdate).then(
             () => ({
               ...unitMetadataSnapshot.data(),
-              title,
-              subtitle
+              ...unitMetadataUpdate
             })
           ));
         } else {
@@ -236,7 +223,7 @@ export class BookEditorService {
   }
 
   public deleteUnit(id: string): Observable<UnitMetadata> {
-    return this.firestore.collection<UnitMetadata>(this.unitsCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<UnitMetadata>(environment.firebaseEndpoints.units).doc(id).get().pipe(
       mergeMap(unitSnapshot => from(unitSnapshot.ref.delete().then(_ => unitSnapshot.data())))
     );
   }
@@ -244,7 +231,7 @@ export class BookEditorService {
   // TEXT CRUD
 
   public loadStepText(stepMetadata: StepMetadata): Observable<TextMetadata> {
-    return this.firestore.collection<TextMetadata>(this.textCollectionKey).doc(stepMetadata.contentId).get().pipe(
+    return this.firestore.collection<TextMetadata>(environment.firebaseEndpoints.text).doc(stepMetadata.contentId).get().pipe(
       mergeMap(textSnapshot => {
         if (!textSnapshot.exists) {
           const newText: TextMetadata = {
@@ -255,7 +242,9 @@ export class BookEditorService {
             type: TextType.Text
           };
 
-          return from(this.firestore.collection<TextMetadata>(this.textCollectionKey).doc(newText.id).set(newText).then(_ => newText));
+          return from(
+            this.firestore.collection<TextMetadata>(environment.firebaseEndpoints.text).doc(newText.id).set(newText).then(_ => newText)
+          );
         } else {
           return of(textSnapshot.data());
         }
@@ -264,7 +253,7 @@ export class BookEditorService {
   }
 
   public updateStepText(textMetadata: TextMetadata): Observable<TextMetadata> {
-    return this.firestore.collection<TextMetadata>(this.textCollectionKey).doc(textMetadata.id).get().pipe(
+    return this.firestore.collection<TextMetadata>(environment.firebaseEndpoints.text).doc(textMetadata.id).get().pipe(
       mergeMap(textMetadataSnapshot => {
         if (textMetadataSnapshot.exists) {
           return from(textMetadataSnapshot.ref.update(textMetadata).then(
@@ -281,7 +270,7 @@ export class BookEditorService {
   }
 
   public deleteStepText(id: string): Observable<TextMetadata> {
-    return this.firestore.collection<TextMetadata>(this.textCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<TextMetadata>(environment.firebaseEndpoints.text).doc(id).get().pipe(
       mergeMap(textSnapshot => from(textSnapshot.ref.delete().then(_ => textSnapshot.data())))
     );
   }
@@ -289,7 +278,7 @@ export class BookEditorService {
   // QUIZ CRUD
 
   public loadQuiz(stepMetadata: StepMetadata): Observable<QuizMetadata> {
-    return this.firestore.collection<QuizMetadata>(this.quizCollectionKey).doc(stepMetadata.contentId).get().pipe(
+    return this.firestore.collection<QuizMetadata>(environment.firebaseEndpoints.quiz).doc(stepMetadata.contentId).get().pipe(
       map(quizSnapshot => {
         if (!quizSnapshot.exists) {
           const newQuiz: QuizMetadata = {
@@ -309,7 +298,7 @@ export class BookEditorService {
   }
 
   public updateQuiz(quizMetadata: QuizMetadata): Observable<QuizMetadata> {
-    return this.firestore.collection<QuizMetadata>(this.quizCollectionKey).doc(quizMetadata.id).get().pipe(
+    return this.firestore.collection<QuizMetadata>(environment.firebaseEndpoints.quiz).doc(quizMetadata.id).get().pipe(
       mergeMap(quizSnapshot => {
         if (quizSnapshot.exists) {
           return from(quizSnapshot.ref.update(quizMetadata).then(
@@ -323,7 +312,7 @@ export class BookEditorService {
   }
 
   public deleteQuiz(id: string): Observable<QuizMetadata> {
-    return this.firestore.collection<QuizMetadata>(this.quizCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<QuizMetadata>(environment.firebaseEndpoints.quiz).doc(id).get().pipe(
       mergeMap(quizSnapshot => from(quizSnapshot.ref.delete().then(_ => quizSnapshot.data())))
     );
   }
@@ -337,18 +326,24 @@ export class BookEditorService {
     };
 
     return from(
-      this.firestore.collection<QuestionMetadata>(this.questionsCollectionKey).doc(newQuestion.id).set(newQuestion).then(_ => newQuestion)
+      this.firestore.collection<QuestionMetadata>(environment.firebaseEndpoints.questions)
+        .doc(newQuestion.id)
+        .set(newQuestion)
+        .then(_ => newQuestion)
     );
   }
 
   public loadQuestionById(id: string): Observable<QuestionMetadata> {
-    return this.firestore.collection<QuestionMetadata>(this.questionsCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<QuestionMetadata>(environment.firebaseEndpoints.questions).doc(id).get().pipe(
       map(questionSnapshot => questionSnapshot.data())
     );
   }
 
   public loadQuestionsByQuizId(quizId: string): Observable<QuestionMetadata[]> {
-    return this.firestore.collection<QuestionMetadata>(this.questionsCollectionKey, ref => ref.where('quizId', '==', quizId)).get().pipe(
+    return this.firestore.collection<QuestionMetadata>(
+      environment.firebaseEndpoints.questions,
+      ref => ref.where('quizId', '==', quizId)
+    ).get().pipe(
       map(questionQuery => questionQuery.docs.map(questionSnapshot => questionSnapshot.data()))
     );
   }
@@ -356,20 +351,13 @@ export class BookEditorService {
   public updateQuestion(
     metadata: Omit<QuestionMetadata, 'quizId'>
   ): Observable<QuestionMetadata> {
-    return this.firestore.collection<QuestionMetadata>(this.questionsCollectionKey).doc(metadata.id).get().pipe(
+    return this.firestore.collection<QuestionMetadata>(environment.firebaseEndpoints.questions).doc(metadata.id).get().pipe(
       mergeMap(questionSnapshot => {
         if (questionSnapshot.exists) {
-          return from(questionSnapshot.ref.update({
-            question: metadata.question,
-            answerType: metadata.answerType,
-            options: metadata.options,
-            required: metadata.required
-          }).then(
-            () => ({
-              ...questionSnapshot.data(),
-              ...metadata
-            })
-          ));
+          return from(questionSnapshot.ref.update(metadata).then(() => ({
+            ...questionSnapshot.data(),
+            ...metadata
+          })));
         } else {
           return throwError('question metadata does not exist');
         }
@@ -378,7 +366,7 @@ export class BookEditorService {
   }
 
   public deleteQuestion(id: string): Observable<QuestionMetadata> {
-    return this.firestore.collection<QuestionMetadata>(this.questionsCollectionKey).doc(id).get().pipe(
+    return this.firestore.collection<QuestionMetadata>(environment.firebaseEndpoints.questions).doc(id).get().pipe(
       mergeMap(questionSnapshot => from(questionSnapshot.ref.delete().then(_ => questionSnapshot.data())))
     );
   }
@@ -390,34 +378,41 @@ export class BookEditorService {
     };
 
     return from(
-      this.firestore.collection<QuizResult>(this.quizResultsCollectionKey).doc(newQuizResult.id).set(newQuizResult).then(_ => newQuizResult)
+      this.firestore.collection<QuizResult>(environment.firebaseEndpoints.quizResults)
+        .doc(newQuizResult.id)
+        .set(newQuizResult)
+        .then(_ => newQuizResult)
     );
   }
 
   public loadQuizResultsByUserId(quizId: string, userId: string): Observable<QuizResult[]> {
-    return this.firestore.collection<QuizResult>(this.quizResultsCollectionKey, ref => ref.where('quizId', '==', quizId).where('userId', '==', userId)).get().pipe(
+    return this.firestore.collection<QuizResult>(environment.firebaseEndpoints.quizResults, ref => ref.where('quizId', '==', quizId).where('userId', '==', userId)).get().pipe(
       map(questionQuery => questionQuery.docs.map(questionSnapshot => questionSnapshot.data()))
     );
   }
 
   public loadQuizResultsByQuizId(quizId: string): Observable<QuizResult[]> {
-    return this.firestore.collection<QuizResult>(this.quizResultsCollectionKey, ref => ref.where('quizId', '==', quizId)).get().pipe(
+    return this.firestore.collection<QuizResult>(
+      environment.firebaseEndpoints.quizResults,
+      ref => ref.where('quizId', '==', quizId)
+    ).get().pipe(
       map(questionQuery => questionQuery.docs.map(questionSnapshot => questionSnapshot.data()))
     );
   }
 
+  // Library
+
   public addBookToLibrary(bookId: string, userId: string): Observable<Library> {
     return from(
-      this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).get().pipe(
+      this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).get().pipe(
         mergeMap(librarySnapshot => {
           if (librarySnapshot.exists) {
             const newLibrary: Library = deepCopy(librarySnapshot.data());
             newLibrary.books.push(bookId);
 
             return from(
-              this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).set(newLibrary).then(_ => newLibrary)
+              this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).set(newLibrary).then(_ => newLibrary)
             );
-
 
           } else {
             const newLibrary: Library = {
@@ -427,7 +422,7 @@ export class BookEditorService {
             };
 
             return from(
-              this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).set(newLibrary).then(_ => newLibrary)
+              this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).set(newLibrary).then(_ => newLibrary)
             );
           }
         })
@@ -437,16 +432,15 @@ export class BookEditorService {
 
   public deleteBookFromLibrary(bookId: string, userId: string): Observable<Library> {
     return from(
-      this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).get().pipe(
+      this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).get().pipe(
         mergeMap(librarySnapshot => {
           if (librarySnapshot.exists) {
             const newLibrary: Library = librarySnapshot.data();
             newLibrary.books = newLibrary.books.filter(id => id !== bookId);
 
             return from(
-              this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).set(newLibrary).then(_ => newLibrary)
+              this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).set(newLibrary).then(_ => newLibrary)
             );
-
 
           } else {
             const newLibrary: Library = {
@@ -456,7 +450,7 @@ export class BookEditorService {
             };
 
             return from(
-              this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).set(newLibrary).then(_ => newLibrary)
+              this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).set(newLibrary).then(_ => newLibrary)
             );
           }
         })
@@ -465,12 +459,12 @@ export class BookEditorService {
   }
 
   public loadLibrary(userId: string): Observable<Library> {
-    return this.firestore.collection<Library>(this.libraryCollectionKey).doc(userId).get().pipe(
+    return this.firestore.collection<Library>(environment.firebaseEndpoints.library).doc(userId).get().pipe(
       map(librarySnapshot => {
         if (librarySnapshot.exists) {
-          return librarySnapshot.data()
+          return librarySnapshot.data();
         } else {
-          const newLibrary: Library = {
+          const newLibrary: Library = { // TODO: can I get rid of it
             books: [],
             id: userId,
             userId

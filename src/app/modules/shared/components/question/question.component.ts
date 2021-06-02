@@ -91,7 +91,7 @@ export class QuestionComponent implements OnInit {
         question: this.questionMetadata.question,
         quizId: this.questionMetadata.quizId,
         required: this.questionMetadata.required,
-        type: updateQuestion.type
+        dialogType: updateQuestion.type
       }
     });
   }

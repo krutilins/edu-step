@@ -9,7 +9,7 @@ const initialState: UnitEditorState = {
 
 export const unitEditorReducer = createReducer(
   initialState,
-  on(UnitEditorActions.updateUnitHeadingSuccess, (state, { unitMetadata }) => {
+  on(UnitEditorActions.updateUnitSuccess, (state, { unitMetadata }) => {
     const newState = deepCopy(state);
 
     const changedStep = newState.units.find(unit => unit.id === unitMetadata.id);
@@ -43,24 +43,19 @@ export const unitEditorReducer = createReducer(
     return newState;
   }),
   on(UnitEditorActions.loadUnitsSuccess, (state, action) => {
-    const newState = deepCopy(state);
 
-    for (const actionUnit of action.unitsMetadata) {
-      let exists = false;
+    const newState: UnitEditorState = {
+      units: []
+    };
+    const unitsById = new Map();
 
-      for (let unit of newState.units) {
-        if (unit.id === actionUnit.id) {
-          exists = true;
-          unit = actionUnit;
-        }
-      }
+    state.units.forEach(unit => unitsById.set(unit.id, unit));
+    action.unitsMetadata.forEach(unit => unitsById.set(unit.id, unit));
 
-      if (!exists) {
-        newState.units.push(actionUnit);
-      }
+    for (const unit of unitsById.values()) {
+      newState.units.push(unit);
     }
 
-
     return newState;
-  })
+  }),
 );

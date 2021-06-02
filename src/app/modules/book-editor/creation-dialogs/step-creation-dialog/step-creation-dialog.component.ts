@@ -28,7 +28,7 @@ export class StepCreationDialogComponent {
     Validators.required,
   ]);
 
-  public stepTypeControl = new FormControl(this.data.type, [
+  public stepTypeControl = new FormControl(this.data.dialogType, [
     Validators.required
   ]);
 
@@ -41,7 +41,7 @@ export class StepCreationDialogComponent {
   ) { }
 
   public handleModalAction(): void {
-    if (this.data.type === createStep.type) {
+    if (this.data.dialogType === createStep.type) {
       this.handleCreateStep();
     } else {
       this.handleUpdateStep();
@@ -63,9 +63,16 @@ export class StepCreationDialogComponent {
 
   public handleUpdateStep(): void {
     this.store.dispatch(updateStep({
-      id: this.data.id,
-      title: this.data.title,
-      subtitle: this.data.subtitle
+      stepMetadataUpdate: {
+        id: this.data.id,
+        title: this.data.title,
+        subtitle: this.data.subtitle,
+        blockType: this.data.blockType,
+        bookId: this.data.bookId,
+        contentId: this.data.contentId,
+        pos: this.data.pos,
+        unitId: this.data.unitId
+      }
     }));
 
     this.onClose();
@@ -84,7 +91,7 @@ export class StepCreationDialogComponent {
   }
 
   public handleDisableDeleteButton(): boolean {
-    return this.data.type === createStep.type;
+    return this.data.dialogType === createStep.type;
   }
 
   public onClose(): void {

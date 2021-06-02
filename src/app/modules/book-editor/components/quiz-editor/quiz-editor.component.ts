@@ -68,7 +68,7 @@ export class QuizEditorComponent implements OnChanges {
         question: 'Empty question',
         quizId: this.quizMetadata.id,
         required: true,
-        type: createQuestion.type
+        dialogType: createQuestion.type
       }
     });
   }

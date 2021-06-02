@@ -11,6 +11,17 @@ export const environment = {
     storageBucket: 'knowledge-35752.appspot.com',
     messagingSenderId: '225702212099',
     appId: '1:225702212099:web:ebe21bc13f1fce84e55436'
+  },
+  firebaseEndpoints: {
+    books: 'books',
+    units: 'units',
+    steps: 'steps',
+    text: 'texts',
+    quiz: 'quizes',
+    questions: 'questions',
+    quizResults: 'quizResults',
+    library: 'library',
+    uploads: 'uploads'
   }
 };
 

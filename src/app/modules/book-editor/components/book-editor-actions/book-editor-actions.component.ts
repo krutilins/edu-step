@@ -34,11 +34,11 @@ export class BookEditorActionsComponent {
       width: '500px',
       minWidth: '300px',
       data: {
-        owner: this.bookMetadata.owner,
+        ownerId: this.bookMetadata.ownerId,
         id: this.bookMetadata.id,
         subtitle: this.bookMetadata.subtitle,
         title: this.bookMetadata.title,
-        type: updateBook.type
+        dialogType: updateBook.type
       }
     });
   }

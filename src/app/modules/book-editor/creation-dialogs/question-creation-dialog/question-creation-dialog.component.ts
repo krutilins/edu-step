@@ -77,7 +77,7 @@ export class QuestionCreationDialogComponent {
   }
 
   public handleModalAction(): void {
-    if (this.data.type === createQuestion.type) {
+    if (this.data.dialogType === createQuestion.type) {
       this.handleCreateQuestion();
     } else {
       this.handleUpdateQuestion();
@@ -118,7 +118,7 @@ export class QuestionCreationDialogComponent {
   }
 
   public handleDisableDeleteButton(): boolean {
-    return this.data.type === createQuestion.type;
+    return this.data.dialogType === createQuestion.type;
   }
 
   public onClose(): void {

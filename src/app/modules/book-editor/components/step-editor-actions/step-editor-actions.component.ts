@@ -37,7 +37,7 @@ export class StepEditorActionsComponent {
         pos: this.stepMetadata.pos,
         subtitle: this.stepMetadata.subtitle,
         title: this.stepMetadata.title,
-        type: updateStep.type,
+        dialogType: updateStep.type,
         unitId: this.stepMetadata.unitId
       }
     });

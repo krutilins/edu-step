@@ -17,7 +17,7 @@ export const selectEditableBooks = createSelector(
   (
     booksState: BookEditorState,
     props: { userMetadata: UserMetadata }
-  ) => booksState.books.filter(book => book.owner === props.userMetadata.id)
+  ) => booksState.books.filter(book => book.ownerId === props.userMetadata.id)
 );
 
 export const selectEnrollableBooks = createSelector(

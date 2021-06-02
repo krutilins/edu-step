@@ -24,7 +24,7 @@ export const stepEditorReducer = createReducer(
 
     return newState;
   }),
-  on(StepEditorActions.updateStepHeadingSuccess, (state, { stepMetadata }) => {
+  on(StepEditorActions.updateStepSuccess, (state, { stepMetadata }) => {
     const newState = deepCopy(state);
 
     const changedStep = newState.steps.find(step => step.id === stepMetadata.id);
@@ -46,44 +46,23 @@ export const stepEditorReducer = createReducer(
   on(StepEditorActions.createStepFailed, (state, action) => ({
     ...state
   })),
-  on(StepEditorActions.loadStepsByBookIdSuccess, (state, action) => {
-    const newState = deepCopy(state);
+  on(
+    StepEditorActions.loadStepsByBookIdSuccess,
+    StepEditorActions.loadStepsByUnitIdSuccess,
+    (state, action) => {
 
-    for (const actionStep of action.stepsMetadata) {
-      let exists = false;
+      const newState: StepEditorState = {
+        steps: []
+      };
+      const stepsById = new Map();
 
-      for (let step of newState.steps) {
-        if (step.id === actionStep.id) {
-          exists = true;
-          step = actionStep;
-        }
+      state.steps.forEach(step => stepsById.set(step.id, step));
+      action.stepsMetadata.forEach(step => stepsById.set(step.id, step));
+
+      for (const step of stepsById.values()) {
+        newState.steps.push(step);
       }
 
-      if (!exists) {
-        newState.steps.push(actionStep);
-      }
-    }
-
-    return newState;
-  }),
-  on(StepEditorActions.loadStepsByUnitIdSuccess, (state, action) => {
-    const newState = deepCopy(state);
-
-    for (const actionStep of action.stepsMetadata) {
-      let exists = false;
-
-      for (let step of newState.steps) {
-        if (step.id === actionStep.id) {
-          exists = true;
-          step = actionStep;
-        }
-      }
-
-      if (!exists) {
-        newState.steps.push(actionStep);
-      }
-    }
-
-    return newState;
-  }),
+      return newState;
+    }),
 );

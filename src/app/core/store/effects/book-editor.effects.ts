@@ -33,7 +33,7 @@ export class BookEditorEffects {
   public createBook$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(BookEditorActions.createBook),
-      mergeMap(action => this.bookEditorService.createBook(action.title, action.subtitle, action.owner).pipe(
+      mergeMap(action => this.bookEditorService.createBook(action.bookMetadata).pipe(
         map(bookMetadata => BookEditorActions.createBookSuccess({
           bookMetadata
         })),
@@ -65,7 +65,7 @@ export class BookEditorEffects {
   public updateBookHeading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(BookEditorActions.updateBook),
-      mergeMap(action => this.bookEditorService.updateBook(action.bookId, action.title, action.subtitle).pipe(
+      mergeMap(action => this.bookEditorService.updateBook(action.bookMetadataUpdate).pipe(
         map(bookMetadata => BookEditorActions.updateBookSuccess({ bookMetadata })),
         catchError(errorMessage => of(BookEditorActions.updateBookFailed({ errorMessage })))
       ))

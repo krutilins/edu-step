@@ -22,10 +22,10 @@ export class UnitEditorEffects {
 
   public updateUnit$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UnitEditorActions.updateUnitHeading),
-      mergeMap(action => this.bookEditorService.updateUnit(action.id, action.title, action.subtitle).pipe(
-        map(unitMetadata => UnitEditorActions.updateUnitHeadingSuccess({ unitMetadata })),
-        catchError(errorMessage => of(UnitEditorActions.updateUnitHeadingFailed({ errorMessage })))
+      ofType(UnitEditorActions.updateUnit),
+      mergeMap(action => this.bookEditorService.updateUnit(action.unitMetadata).pipe(
+        map(unitMetadata => UnitEditorActions.updateUnitSuccess({ unitMetadata })),
+        catchError(errorMessage => of(UnitEditorActions.updateUnitFailed({ errorMessage })))
       ))
     );
   });

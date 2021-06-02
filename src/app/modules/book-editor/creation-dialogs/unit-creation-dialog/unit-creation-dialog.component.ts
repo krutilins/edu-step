@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ErrorMatcher } from 'src/app/core/classes/error-matcher.class';
 import { UnitCreationDialogData } from 'src/app/core/models/components/unit-creation-dialog.model';
-import { createUnit, deleteUnit, updateUnitHeading } from 'src/app/core/store/actions/unit-editor.actions';
+import { createUnit, deleteUnit, updateUnit } from 'src/app/core/store/actions/unit-editor.actions';
 import { AppState } from 'src/app/core/store/models/app-state.model';
 
 @Component({
@@ -32,7 +32,7 @@ export class UnitCreationDialogComponent {
   ) { }
 
   public handleModalAction(): void {
-    if (this.data.type === createUnit.type) {
+    if (this.data.dialogType === createUnit.type) {
       this.handleCreateUnit();
     } else {
       this.handleUpdateUnit();
@@ -51,10 +51,14 @@ export class UnitCreationDialogComponent {
   }
 
   public handleUpdateUnit(): void {
-    this.store.dispatch(updateUnitHeading({
-      id: this.data.id,
-      title: this.data.title,
-      subtitle: this.data.subtitle
+    this.store.dispatch(updateUnit({
+      unitMetadata: {
+        id: this.data.id,
+        title: this.data.title,
+        subtitle: this.data.subtitle,
+        bookId: this.data.bookId,
+        pos: this.data.pos
+      }
     }));
 
     this.onClose();
@@ -73,7 +77,7 @@ export class UnitCreationDialogComponent {
   }
 
   public handleDisableDeleteButton(): boolean {
-    return this.data.type === createUnit.type;
+    return this.data.dialogType === createUnit.type;
   }
 
   public onClose(): void {

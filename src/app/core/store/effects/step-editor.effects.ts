@@ -53,9 +53,9 @@ export class StepEditorEffects {
   public updateStepHeading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(StepEditorActions.updateStep),
-      mergeMap(action => this.bookEditorService.updateStep(action.id, action.title, action.subtitle).pipe(
-        map(stepMetadata => StepEditorActions.updateStepHeadingSuccess({ stepMetadata })),
-        catchError(errorMessage => of(StepEditorActions.updateStepHeadingFailed({ errorMessage })))
+      mergeMap(action => this.bookEditorService.updateStep(action.stepMetadataUpdate).pipe(
+        map(stepMetadata => StepEditorActions.updateStepSuccess({ stepMetadata })),
+        catchError(errorMessage => of(StepEditorActions.updateStepFailed({ errorMessage })))
       ))
     );
   });

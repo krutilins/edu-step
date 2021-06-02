@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/store/models/app-state.model';
 import { selectUserMetadata } from 'src/app/core/store/selectors/user.selectors';

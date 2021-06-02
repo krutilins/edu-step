@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { mergeMap, skipWhile, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, mergeMap, skipWhile, take, tap } from 'rxjs/operators';
 import { BookMetadata } from 'src/app/core/models/metadata/book-metadata.model';
 import { loadBooksByIds } from 'src/app/core/store/actions/book-editor.actions';
 import { loadLibrary } from 'src/app/core/store/actions/library.actions';
@@ -27,15 +27,28 @@ export class LibraryPageComponent implements OnInit {
   public ngOnInit(): void {
 
     this.booksMetadata$ = this.store.select(selectUserMetadata).pipe(
-      tap(userMetadata => {
+      map(userMetadata => {
         if (userMetadata) {
           this.store.dispatch(loadLibrary({ userId: userMetadata.id }));
         }
       }),
       mergeMap(() => this.store.select(selectLibrary)),
-      skipWhile(library => !library),
-      tap(library => this.store.dispatch(loadBooksByIds({ ids: library.books }))),
-      mergeMap(library => this.store.select(selectBooksByIds, { ids: library.books }))
+      tap(book => console.log(book)),
+      map(library => {
+        if (library) {
+          this.store.dispatch(loadBooksByIds({ ids: library.books }));
+          return library;
+        } else {
+          return null;
+        }
+      }),
+      mergeMap(library => {
+        if (library) {
+          return this.store.select(selectBooksByIds, { ids: library.books })
+        } else {
+          return of([]);
+        }
+      }),
     );
   }
 

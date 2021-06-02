@@ -14,20 +14,13 @@ export class AuthGuard implements CanActivate {
     public router: Router
   ) { }
 
-  canActivate(
+  public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // if (this.authService.isLoggedIn !== true) {
-    //   this.router.navigate(['auth']);
-    // }
-
-    // if (this.authService.isLoggedIn && this.authService.userState$)
-
-    return this.authService.userState$.pipe(
-      map(userState => userState?.userMetadata),
+    return this.authService.userMetadata$.pipe(
       map(userMetadata => {
-        if (userMetadata && userMetadata.emailVerified) {
+        if (userMetadata?.emailVerified) {
           return true;
         } else if (userMetadata) {
           return this.router.createUrlTree(['/auth/verify-email']);
@@ -35,8 +28,6 @@ export class AuthGuard implements CanActivate {
           return this.router.createUrlTree(['/auth/sign-up']);
         }
       })
-    )
-
-    // return true;
+    );
   }
 }

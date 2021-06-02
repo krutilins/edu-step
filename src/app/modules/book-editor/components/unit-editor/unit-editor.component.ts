@@ -47,7 +47,7 @@ export class UnitEditorComponent implements OnInit {
         pos: this.length,
         subtitle: '',
         title: '',
-        type: createStep.type,
+        dialogType: createStep.type,
         unitId: this.unitMetadata.id
       }
     });

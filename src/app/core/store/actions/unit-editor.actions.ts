@@ -71,17 +71,17 @@ export const deleteUnitFailed = createAction(
 
 // UPDATE UNIT HEADING
 
-export const updateUnitHeading = createAction(
-  '[Unit] Update Unit Heading',
-  props<{ id: string, title: string, subtitle: string }>()
+export const updateUnit = createAction(
+  '[Unit] Update Unit',
+  props<{ unitMetadata: UnitMetadata }>()
 );
 
-export const updateUnitHeadingSuccess = createAction(
+export const updateUnitSuccess = createAction(
   '[Unit API] Update Unit Heading Success',
   props<{ unitMetadata: UnitMetadata }>()
 );
 
-export const updateUnitHeadingFailed = createAction(
+export const updateUnitFailed = createAction(
   '[Unit API] Update Unit Heading Failed',
   props<{ errorMessage: string }>()
 );

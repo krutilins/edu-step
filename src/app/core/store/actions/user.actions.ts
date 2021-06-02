@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserState } from '../models/user-state.model';
+import { UserMetadata } from '../../models/metadata/user-metadata.model';
 
 export const userLoad = createAction(
   '[User] User Load'
@@ -7,7 +7,7 @@ export const userLoad = createAction(
 
 export const userLoadSuccess = createAction(
   '[User API] User Load Success',
-  props<{ userState: UserState }>()
+  props<{ userMetadata: UserMetadata }>()
 );
 
 export const userLoadFailed = createAction(
@@ -17,7 +17,7 @@ export const userLoadFailed = createAction(
 
 export const userSignInSuccess = createAction(
   '[User API] User Sign In Success',
-  props<{ userState: UserState }>()
+  props<{ userMetadata: UserMetadata }>()
 );
 
 export const userSignInFailed = createAction(

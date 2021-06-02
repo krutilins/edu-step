@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UnitCreationDialogData } from 'src/app/core/models/components/unit-creation-dialog.model';
 import { UnitMetadata } from 'src/app/core/models/metadata/unit-metadata.model';
-import { deleteUnit, updateUnitHeading } from 'src/app/core/store/actions/unit-editor.actions';
+import { deleteUnit, updateUnit } from 'src/app/core/store/actions/unit-editor.actions';
 import { AppState } from 'src/app/core/store/models/app-state.model';
 import { UnitCreationDialogComponent } from 'src/app/modules/book-editor/creation-dialogs/unit-creation-dialog/unit-creation-dialog.component';
 
@@ -34,7 +34,7 @@ export class UnitEditorActionsComponent {
         bookId: this.unitMetadata.bookId,
         title: this.unitMetadata.title,
         subtitle: this.unitMetadata.subtitle,
-        type: updateUnitHeading.type,
+        dialogType: updateUnit.type,
         pos: this.unitMetadata.pos
       }
     });

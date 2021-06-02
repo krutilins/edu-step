@@ -13,10 +13,10 @@ export class UserEffects {
   public loadUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.userLoad),
-      mergeMap(() => this.authService.userState$.pipe(
-        map(userState => {
-          if (userState) {
-            return UserActions.userLoadSuccess({ userState });
+      mergeMap(() => this.authService.userMetadata$.pipe(
+        map(userMetadata => {
+          if (userMetadata) {
+            return UserActions.userLoadSuccess({ userMetadata  });
           } else {
             return UserActions.userLoadFailed({ errorMessage: 'have no user' });
           }

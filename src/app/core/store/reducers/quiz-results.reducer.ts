@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { deepCopy } from '../../functions/deep-copy.function';
-import { loadQuizResultsByQuizIdSuccess, loadQuizResultsByUserIdSuccess, sendQuizResultSuccess } from '../actions/quiz-result.actions';
+import * as QuizResultActions from '../actions/quiz-result.actions';
 import { QuizResultState } from '../models/quiz-result-state.model';
 
 const initialState: QuizResultState = {
@@ -9,50 +8,38 @@ const initialState: QuizResultState = {
 
 export const quizResultReducer = createReducer(
   initialState,
-  on(loadQuizResultsByQuizIdSuccess, (state, action) => {
-    const newState = deepCopy(state);
+  on(
+    QuizResultActions.loadQuizResultsByQuizIdSuccess,
+    QuizResultActions.loadQuizResultsByUserIdSuccess,
+    (state, action) => {
 
-    for (const actionQuizResult of action.quizResults) {
-      let exists = false;
+      const newState: QuizResultState = {
+        results: []
+      };
+      const quizResultsById = new Map();
 
-      for (let quizResult of newState.results) {
-        if (quizResult.id === actionQuizResult.id) {
-          exists = true;
-          quizResult = actionQuizResult;
-        }
+      state.results.forEach(results => quizResultsById.set(results.id, results));
+      action.quizResults.forEach(result => quizResultsById.set(result.id, result));
+
+      for (const result of quizResultsById.values()) {
+        newState.results.push(result);
       }
 
-      if (!exists) {
-        newState.results.push(actionQuizResult);
-      }
+      return newState;
+    }),
+  on(QuizResultActions.sendQuizResultSuccess, (state, { quizResult }) => {
+    const newState: QuizResultState = {
+      results: []
+    };
+
+    const quizResultsById = new Map();
+
+    state.results.forEach(result => quizResultsById.set(result.id, result));
+    quizResultsById.set(quizResult.id, quizResult);
+
+    for (const book of quizResultsById.values()) {
+      newState.results.push(book);
     }
-
-    return newState;
-  }),
-  on(loadQuizResultsByUserIdSuccess, (state, action) => {
-    const newState = deepCopy(state);
-
-    for (const actionQuizResult of action.quizResults) {
-      let exists = false;
-
-      for (let quizResult of newState.results) {
-        if (quizResult.id === actionQuizResult.id) {
-          exists = true;
-          quizResult = actionQuizResult;
-        }
-      }
-
-      if (!exists) {
-        newState.results.push(actionQuizResult);
-      }
-    }
-
-    return newState;
-  }),
-  on(sendQuizResultSuccess, (state, action) => {
-    const newState = deepCopy(state);
-
-    newState.results.push(action.quizResult);
 
     return newState;
   })

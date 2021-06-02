@@ -54,11 +54,11 @@ export class BookListPageComponent implements OnInit {
       width: '500px',
       minWidth: '300px',
       data: {
-        owner: this.userMetadata.id,
+        ownerId: this.userMetadata.id,
         id: '',
         subtitle: '',
         title: '',
-        type: createBook.type
+        dialogType: createBook.type
       }
     });
   }

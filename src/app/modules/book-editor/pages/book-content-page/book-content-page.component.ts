@@ -85,7 +85,7 @@ export class BookContentPageComponent implements OnInit, OnDestroy {
         title: '',
         subtitle: '',
         bookId: this.bookMetadata.id,
-        type: createUnit.type,
+        dialogType: createUnit.type,
         pos: this.units.length
       }
     });
@@ -97,10 +97,10 @@ export class BookContentPageComponent implements OnInit, OnDestroy {
       minWidth: '300px',
       data: {
         id: this.bookMetadata.id,
-        owner: this.bookMetadata.owner,
+        ownerId: this.bookMetadata.ownerId,
         title: this.bookMetadata.title,
         subtitle: this.bookMetadata.subtitle,
-        type: updateBook.type
+        dialogType: updateBook.type
       }
     });
   }

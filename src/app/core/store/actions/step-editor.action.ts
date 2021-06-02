@@ -74,17 +74,17 @@ export const createStepFailed = createAction(
 // UPDATE STEP HEADING
 
 export const updateStep = createAction(
-  '[Book Editor] Update Step Heading',
-  props<{ id: string, title: string, subtitle: string }>()
+  '[Book Editor] Update Step',
+  props<{ stepMetadataUpdate: StepMetadata }>()
 );
 
-export const updateStepHeadingSuccess = createAction(
-  '[Book Editor API] Update Step Heading Success',
+export const updateStepSuccess = createAction(
+  '[Book Editor API] Update Step Success',
   props<{ stepMetadata: StepMetadata }>()
 );
 
-export const updateStepHeadingFailed = createAction(
-  '[Book Editor API] Update Step Heading Failed',
+export const updateStepFailed = createAction(
+  '[Book Editor API] Update Step Failed',
   props<{ errorMessage: string }>()
 );
 

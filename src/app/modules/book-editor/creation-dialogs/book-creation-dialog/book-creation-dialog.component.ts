@@ -32,7 +32,7 @@ export class BookCreationDialogComponent {
   ) { }
 
   public handleModalAction(): void {
-    if (this.data.type === createBook.type) {
+    if (this.data.dialogType === createBook.type) {
       this.handleCreateBook();
     } else {
       this.handleUpdateBook();
@@ -41,9 +41,11 @@ export class BookCreationDialogComponent {
 
   public handleCreateBook(): void {
     this.store.dispatch(createBook({
-      owner: this.data.owner,
-      title: this.data.title,
-      subtitle: this.data.subtitle
+      bookMetadata: {
+        title: this.data.title,
+        subtitle: this.data.subtitle,
+        ownerId: this.data.ownerId
+      }
     }));
 
     this.onClose();
@@ -51,9 +53,12 @@ export class BookCreationDialogComponent {
 
   public handleUpdateBook(): void {
     this.store.dispatch(updateBook({
-      bookId: this.data.id,
-      title: this.data.title,
-      subtitle: this.data.subtitle
+      bookMetadataUpdate: {
+        id: this.data.id,
+        title: this.data.title,
+        subtitle: this.data.subtitle,
+        ownerId: this.data.ownerId
+      }
     }));
 
     this.onClose();
@@ -72,7 +77,7 @@ export class BookCreationDialogComponent {
   }
 
   public handleDisableDeleteButton(): boolean {
-    return this.data.type === createBook.type;
+    return this.data.dialogType === createBook.type;
   }
 
   public onClose(): void {
