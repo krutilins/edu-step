@@ -29,7 +29,7 @@ export class SignUpPageComponent {
   }
 
   public signUpGoogle(): void {
-    this.authService.googleAuth()
+    this.authService.googleAuth();
   }
 
   public onSubmit(): void {
@@ -37,7 +37,7 @@ export class SignUpPageComponent {
     const password = this.signUpFormGroup.get('password')?.value;
 
     if (email && password) {
-      this.authService.signUp(email, password)
+      this.authService.signUp(email, password);
     }
 
   }

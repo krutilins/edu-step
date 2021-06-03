@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { BookEditorService } from '../../services/book-editor.service';
+import { UnitService } from '../../services/unit.service';
 import * as UnitEditorActions from '../actions/unit-editor.actions';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class UnitEditorEffects {
   public createUnit$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UnitEditorActions.createUnit),
-      mergeMap(({ bookId, pos, subtitle, title }) => this.bookEditorService.createUnit({ bookId, pos, subtitle, title }).pipe(
+      mergeMap(({ bookId, pos, subtitle, title }) => this.unitService.createUnit({ bookId, pos, subtitle, title }).pipe(
         map(unitMetadata => UnitEditorActions.createUnitSuccess({ unitMetadata })),
         catchError(errorMessage => of(UnitEditorActions.createUnitFailed({ errorMessage })))
       ))
@@ -23,7 +23,7 @@ export class UnitEditorEffects {
   public updateUnit$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UnitEditorActions.updateUnit),
-      mergeMap(action => this.bookEditorService.updateUnit(action.unitMetadata).pipe(
+      mergeMap(action => this.unitService.updateUnit(action.unitMetadata).pipe(
         map(unitMetadata => UnitEditorActions.updateUnitSuccess({ unitMetadata })),
         catchError(errorMessage => of(UnitEditorActions.updateUnitFailed({ errorMessage })))
       ))
@@ -33,7 +33,7 @@ export class UnitEditorEffects {
   public deleteUnit$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UnitEditorActions.deleteUnit),
-      mergeMap(action => this.bookEditorService.deleteUnit(action.id).pipe(
+      mergeMap(action => this.unitService.deleteUnit(action.id).pipe(
         map(unitMetadata => UnitEditorActions.deleteUnitSuccess({ unitMetadata })),
         catchError(errorMessage => of(UnitEditorActions.deleteUnitFailed({ errorMessage })))
       ))
@@ -43,7 +43,7 @@ export class UnitEditorEffects {
   public loadUnitById$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UnitEditorActions.loadUnit),
-      mergeMap(action => this.bookEditorService.loadUnitById(action.id).pipe(
+      mergeMap(action => this.unitService.loadUnitById(action.id).pipe(
         map(unitMetadata => UnitEditorActions.loadUnitSuccess({ unitMetadata })),
         catchError(errorMessage => of(UnitEditorActions.loadUnitFailed({ errorMessage })))
       ))
@@ -53,12 +53,12 @@ export class UnitEditorEffects {
   public loadUnitsByBookId$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UnitEditorActions.loadUnits),
-      mergeMap(action => this.bookEditorService.loadUnitsByBookId(action.bookId).pipe(
+      mergeMap(action => this.unitService.loadUnitsByBookId(action.bookId).pipe(
         map(unitsMetadata => UnitEditorActions.loadUnitsSuccess({ unitsMetadata })),
         catchError(errorMessage => of(UnitEditorActions.loadUnitsFailed({ errorMessage })))
       ))
     );
   });
 
-  constructor(private actions$: Actions, private bookEditorService: BookEditorService) { }
+  constructor(private actions$: Actions, private unitService: UnitService) { }
 }

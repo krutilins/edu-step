@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { BookEditorService } from '../../services/book-editor.service';
+import { QuestionService } from '../../services/question.service';
 import * as QuestionActions from '../actions/question.actions';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class QuestionEffects {
   public createQuestion = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuestionActions.createQuestion),
-      mergeMap(action => this.bookEditorService.createQuestion(action.question).pipe(
+      mergeMap(action => this.questionService.createQuestion(action.question).pipe(
         map(questionMetadata => QuestionActions.createQuestionSuccess({ questionMetadata })),
         catchError(errorMessage => of(QuestionActions.createQuestionFailed({ errorMessage })))
       ))
@@ -23,7 +23,7 @@ export class QuestionEffects {
   public loadQuestionById = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuestionActions.loadQuestionById),
-      mergeMap(action => this.bookEditorService.loadQuestionById(action.id).pipe(
+      mergeMap(action => this.questionService.loadQuestionById(action.id).pipe(
         map(questionMetadata => QuestionActions.loadQuestionByIdSuccess({ questionMetadata })),
         catchError(errorMessage => of(QuestionActions.loadQuestionByIdFailed({ errorMessage })))
       ))
@@ -33,7 +33,7 @@ export class QuestionEffects {
   public loadQuestionsByQuizId = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuestionActions.loadQuestionByQuizId),
-      mergeMap(action => this.bookEditorService.loadQuestionsByQuizId(action.id).pipe(
+      mergeMap(action => this.questionService.loadQuestionsByQuizId(action.id).pipe(
         map(questionsMetadata => QuestionActions.loadQuestionByQuizIdSuccess({ questionsMetadata })),
         catchError(errorMessage => of(QuestionActions.loadQuestionByQuizIdFailed({ errorMessage })))
       ))
@@ -43,7 +43,7 @@ export class QuestionEffects {
   public updateQuestion$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuestionActions.updateQuestion),
-      mergeMap(({ metadata }) => this.bookEditorService.updateQuestion(
+      mergeMap(({ metadata }) => this.questionService.updateQuestion(
         metadata
       ).pipe(
         map(questionMetadata => QuestionActions.updateQuestionSuccess({ questionMetadata })),
@@ -55,12 +55,12 @@ export class QuestionEffects {
   public deleteQuestion$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuestionActions.deleteQuestion),
-      mergeMap(action => this.bookEditorService.deleteQuestion(action.id).pipe(
+      mergeMap(action => this.questionService.deleteQuestion(action.id).pipe(
         map(questionMetadata => QuestionActions.deleteQuestionSuccess({ questionMetadata })),
         catchError(errorMessage => of(QuestionActions.deleteQuestionFailed({ errorMessage })))
       ))
     );
   });
 
-  constructor(private actions$: Actions, private bookEditorService: BookEditorService) { }
+  constructor(private actions$: Actions, private questionService: QuestionService) { }
 }

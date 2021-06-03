@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { BookEditorService } from '../../services/book-editor.service';
+import { BookService } from '../../services/book.service';
 import * as BookEditorActions from '../actions/book-editor.actions';
 
 @Injectable({
@@ -82,5 +82,5 @@ export class BookEditorEffects {
     )
   })
 
-  constructor(private actions$: Actions, private bookEditorService: BookEditorService) { }
+  constructor(private actions$: Actions, private bookEditorService: BookService) { }
 }
